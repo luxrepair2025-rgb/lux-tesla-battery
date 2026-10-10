@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SELMAN MODE · M Competition finder</title>
+<meta name="theme-color" content="#0b0d12">
+<style>
+:root{--m1:#81c4ff;--m2:#16588e;--m3:#e7222e;--bg:#0b0d12;--card:#141821;--line:#262c38;--txt:#eef2f8;--mut:#93a0b4}
+*{box-sizing:border-box}html,body{margin:0}
+body{color:var(--txt);font:14px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;min-height:100vh;
+ background-color:var(--bg);
+ background-image:linear-gradient(27deg,#151821 5px,transparent 5px),linear-gradient(207deg,#151821 5px,transparent 5px),linear-gradient(27deg,#0f1117 5px,transparent 5px),linear-gradient(207deg,#0f1117 5px,transparent 5px),linear-gradient(90deg,#11141b 10px,transparent 10px),linear-gradient(#12151d 25%,#0e1016 25%,#0e1016 50%,transparent 50%,transparent 75%,#151922 75%,#151922);
+ background-size:20px 20px;background-position:0 5px,10px 0,0 10px,10px 5px,0 0,0 0;background-attachment:fixed}
+a{color:inherit}
+.stripe{height:6px;background:linear-gradient(90deg,var(--m1) 0 33.3%,var(--m2) 33.3% 66.6%,var(--m3) 66.6%);background-size:200% 100%}
+.stripe.anim{background:linear-gradient(90deg,var(--m1),var(--m1) 16.6%,var(--m2) 16.6%,var(--m2) 33.3%,var(--m3) 33.3%,var(--m3) 50%,var(--m1) 50%,var(--m1) 66.6%,var(--m2) 66.6%,var(--m2) 83.3%,var(--m3) 83.3%);background-size:200% 100%;animation:run 6s linear infinite}
+@keyframes run{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.stripe.anim{animation:none}}
+.top{display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(8,10,14,.85);backdrop-filter:blur(6px);position:sticky;top:0;z-index:5;border-bottom:1px solid var(--line)}
+.back{font-size:12.5px;font-weight:700;text-decoration:none;color:#cfe6ff;background:#1b2130;border:1px solid #2c3446;padding:6px 10px;border-radius:8px;white-space:nowrap}
+.back:hover{background:#242c3e}
+.mbadge{display:inline-flex;align-items:center;gap:6px;font-weight:900;font-style:italic;letter-spacing:.5px}
+.mbadge i{display:inline-block;width:22px;height:12px;transform:skewX(-20deg);background:linear-gradient(90deg,var(--m1) 0 33%,var(--m2) 33% 66%,var(--m3) 66%);border-radius:2px}
+.top .upd{margin-left:auto;font-size:11.5px;color:var(--mut);white-space:nowrap}
+.hero{position:relative;display:flex;align-items:center;gap:18px;padding:18px 16px 8px;max-width:1280px;margin:0 auto}
+.hero h1{margin:0;font-size:clamp(34px,8.5vw,64px);line-height:.95;font-weight:900;font-style:italic;letter-spacing:-1px;text-transform:uppercase;
+ background:linear-gradient(180deg,#fff 0%,#dfe7f2 55%,#9aa7ba 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 rgba(0,0,0,.5))}
+.hero h1 .ms{display:block;height:9px;width:min(260px,62%);margin-top:8px;transform:skewX(-20deg);background:linear-gradient(90deg,var(--m1) 0 33.3%,var(--m2) 33.3% 66.6%,var(--m3) 66.6%);border-radius:2px}
+.hero .tag{margin:8px 0 0;color:#c7d2e3;font-size:clamp(13px,3.4vw,16px);font-style:italic}
+.hero .tag b{color:#fff}
+.tach{flex:0 0 auto;width:132px;height:132px;margin-left:auto}
+.tach .num{font:900 italic 30px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:#fff}
+.tach .lbl{font:700 9px/1 -apple-system,BlinkMacSystemFont,sans-serif;fill:#93a0b4;letter-spacing:1.5px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 12px 50px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.stat{background:linear-gradient(180deg,#171c27,#11151d);border:1px solid var(--line);border-radius:12px;padding:9px 11px;position:relative;overflow:hidden;min-width:0}
+.stat:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--m1),var(--m2),var(--m3))}
+.stat .k{font-size:10.5px;text-transform:uppercase;letter-spacing:1.2px;color:var(--mut);font-weight:700}
+.stat .v{font-size:19px;font-weight:900;font-style:italic;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat .s{font-size:11.5px;color:#b9c4d6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat a.s{text-decoration:none}.stat a.s:hover{text-decoration:underline}
+.controls{display:flex;flex-wrap:nowrap;gap:8px;align-items:center;margin:6px 0 12px;position:sticky;top:45px;z-index:4;padding:8px 0;background:linear-gradient(180deg,rgba(11,13,18,.96) 70%,rgba(11,13,18,0))}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1 1 auto;min-width:0;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid #2d3546;background:#161b26;color:#dbe4f1;border-radius:999px;padding:6px 11px;font-weight:800;font-style:italic;font-size:13px;cursor:pointer;white-space:nowrap}
+.chip small{font-style:normal;font-weight:700;color:var(--mut);margin-left:4px;font-size:11px}
+.chip.on{background:linear-gradient(90deg,var(--m1),var(--m2) 55%,var(--m3));border-color:transparent;color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.4)}
+.chip.on small{color:#e9f2ff}
+select{flex:0 0 auto;max-width:132px;background:#161b26;color:#e6edf7;border:1px solid #2d3546;border-radius:10px;padding:7px 9px;font-weight:700;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,border-color .15s;position:relative}
+.card:hover{transform:translateY(-2px);border-color:#3b4a66}
+.card .ph{display:block;position:relative;aspect-ratio:4/3;background:#0c0f15 center/cover no-repeat;overflow:hidden}
+.card .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.card .ph .noimg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#6b7891;font-size:12px;text-align:center;padding:8px}
+.card .badge{position:absolute;left:8px;top:8px;background:rgba(10,12,18,.85);color:#fff;font-weight:900;font-style:italic;font-size:12px;padding:3px 8px 3px 7px;border-radius:6px;display:flex;align-items:center;gap:5px}
+.card .badge i{width:16px;height:8px;transform:skewX(-20deg);background:linear-gradient(90deg,var(--m1) 0 33%,var(--m2) 33% 66%,var(--m3) 66%)}
+.card .cond{position:absolute;right:8px;top:8px;background:rgba(10,12,18,.8);color:#cbd5e1;font-size:10.5px;font-weight:700;padding:2px 6px;border-radius:5px}
+.card .cond.new{background:#e7222e;color:#fff}
+.card .bd{padding:9px 10px 10px;display:flex;flex-direction:column;gap:3px;flex:1}
+.card .ttl{font-weight:800;font-size:13.5px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.4em}
+.card .ttl a{text-decoration:none}.card .ttl a:hover{text-decoration:underline}
+.card .pr{font-size:20px;font-weight:900;font-style:italic;letter-spacing:-.3px}
+.card .pr .red{font-size:10.5px;font-style:normal;font-weight:800;color:#86efac;margin-left:6px;vertical-align:middle}
+.card .ln{font-size:12px;color:#b9c4d6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .ln b{color:#e8eef7}
+.card .ft{margin-top:auto;padding-top:5px;display:flex;justify-content:space-between;gap:6px;font-size:11px;color:var(--mut)}
+.card .ft a{color:#9cc9ff;text-decoration:none;font-weight:700}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:-1px;border:1px solid rgba(255,255,255,.35)}
+.empty{color:var(--mut);padding:30px;text-align:center}
+.foot{color:#7d889c;font-size:11.5px;margin-top:22px;line-height:1.5}
+.more{display:block;margin:16px auto 0;background:#1b2130;color:#e6edf7;border:1px solid #2c3446;border-radius:10px;padding:10px 18px;font-weight:800;font-style:italic;cursor:pointer}
+@media(max-width:700px){
+ .top{padding:7px 10px}.top .upd{font-size:10.5px}
+ .hero{padding:14px 12px 4px;gap:8px}.tach{width:96px;height:96px}
+ .stats{grid-template-columns:1fr 1fr;gap:6px}.stat .v{font-size:16px}
+ .controls{top:41px}
+ .grid{grid-template-columns:1fr 1fr;gap:8px}.wrap{padding:0 8px 40px}
+ .card{border-radius:11px}.card .bd{padding:7px 8px 8px}.card .ttl{font-size:12px}.card .pr{font-size:16px}.card .ln{font-size:11px}.card .ft{font-size:10px}
+ .card .badge{font-size:10.5px;left:6px;top:6px;padding:2px 6px}.card .cond{font-size:9.5px}
+}
+</style></head><body>
+<div class="stripe anim"></div>
+<div class="top"><a class="back" href="./">← Back to inventory</a><span class="mbadge"><i></i>SELMAN MODE</span><span class="upd" id="upd"></span></div>
+<section class="hero">
+ <div><h1>Selman<br>Mode<span class="ms"></span></h1>
+ <p class="tag" id="tag">Every <b>M Competition</b> for sale in America. No commuters. No compromises.</p></div>
+ <svg class="tach" viewBox="0 0 120 120" aria-label="Listings counter">
+  <defs><linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#81c4ff"/><stop offset=".55" stop-color="#16588e"/><stop offset="1" stop-color="#e7222e"/></linearGradient></defs>
+  <circle cx="60" cy="60" r="56" fill="#0d1017" stroke="#2a3243" stroke-width="2"/>
+  <g id="ticks"></g>
+  <path id="arcBg" fill="none" stroke="#1f2533" stroke-width="7" stroke-linecap="round"/>
+  <path id="arc" fill="none" stroke="url(#tg)" stroke-width="7" stroke-linecap="round"/>
+  <line id="needle" x1="60" y1="60" x2="60" y2="18" stroke="#e7222e" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="60" cy="60" r="5" fill="#e7222e"/>
+  <text class="num" id="tnum" x="60" y="92" text-anchor="middle">0</text>
+  <text class="lbl" x="60" y="105" text-anchor="middle">LISTINGS</text>
+ </svg>
+</section>
+<div class="stripe"></div>
+<main class="wrap">
+ <div class="stats" id="stats"></div>
+ <div class="controls"><div class="chips" id="chips"></div>
+  <select id="sort" aria-label="Sort"><option value="new">Newest listed</option><option value="pa">Price ↑</option><option value="pd">Price ↓</option><option value="ma">Miles ↑</option><option value="yd">Year ↓</option><option value="ya">Year ↑</option><option value="dist">Closest to Lux</option></select></div>
+ <div class="grid" id="grid"><div class="empty">Warming up the S58…</div></div>
+ <button class="more" id="more" hidden>Show more</button>
+ <p class="foot" id="foot"></p>
+</main>
+<div class="stripe anim"></div>
+<script>
+const $=s=>document.querySelector(s);
+const fmt=n=>'$'+Math.round(n).toLocaleString('en-US'), mi=n=>Math.round(n).toLocaleString('en-US')+' mi';
+const ORDER=['M2','M3','M4','M5','M8','X3M','X4M','X5M','X6M'], NAME={X3M:'X3 M',X4M:'X4 M',X5M:'X5 M',X6M:'X6 M'};
+const TAGS=['Every <b>M Competition</b> for sale in America. No commuters. No compromises.','Three stripes. Zero chill. <b>Pick your weapon.</b>','Warning: browsing may cause sudden urges to <b>launch control</b>.','Rev-matched for <b>Selman</b>. Daily-driven by nobody sensible.'];
+const COL={black:'#111',white:'#f5f5f5',gray:'#7b8190',grey:'#7b8190',silver:'#c0c6cf',blue:'#2563eb',red:'#dc2626',green:'#16a34a',orange:'#f97316',yellow:'#facc15',brown:'#7c4a2d',gold:'#d4a017',purple:'#7e22ce',beige:'#d6c7a1',tan:'#c8a97e'};
+function colorHex(c){c=(c.color_simple||c.color||'').toLowerCase();for(const k in COL)if(c.includes(k))return COL[k];
+ if(/sao paulo|isle of man|portimao|frozen.*green/.test(c))return '#2bb3a7';if(/toronto|imola|melbourne|misano/.test(c))return '#c4122f';if(/marina bay|long beach|san marino|tanzanite|frozen.*blue|yas marina|portimao/.test(c))return '#1d4ed8';if(/brooklyn|skyscraper|dravit|frozen.*grey|grigio|sapphire/.test(c))return '#4b5563';if(/alpine|mineral white|frozen.*white/.test(c))return '#f3f4f6';return '#555'}
+let D=null, model='ALL', shown=48;
+$('#tag').innerHTML=TAGS[Math.floor(Math.random()*TAGS.length)];
+// tachometer
+const A0=-225,A1=45; function pt(a,r){a=a*Math.PI/180;return [60+r*Math.cos(a),60+r*Math.sin(a)]}
+function arc(a,b,r){const [x0,y0]=pt(a,r),[x1,y1]=pt(b,r);return `M${x0} ${y0} A${r} ${r} 0 ${b-a>180?1:0} 1 ${x1} ${y1}`}
+(()=>{let g='';for(let i=0;i<=8;i++){const a=A0+(A1-A0)*i/8,[x0,y0]=pt(a,50),[x1,y1]=pt(a,i>=6?42:45);g+=`<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="${i>=6?'#e7222e':'#8a96aa'}" stroke-width="2"/>`}$('#ticks').innerHTML=g;$('#arcBg').setAttribute('d',arc(A0,A1,38))})();
+function tach(n,max){const t0=performance.now(),dur=1400,end=Math.min(1,n/Math.max(max,1));
+ const step=t=>{let p=Math.min(1,(t-t0)/dur);const e=1-Math.pow(1-p,3);const f=end*e+(p<.55?Math.sin(p/.55*Math.PI)*.12:0);
+  const a=A0+(A1-A0)*Math.min(1,f);$('#arc').setAttribute('d',arc(A0,Math.max(A0+.5,a),38));$('#needle').setAttribute('transform',`rotate(${a+90} 60 60)`);
+  $('#tnum').textContent=Math.round(n*e);if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)}
+function list(){let L=D.listings.filter(c=>model==='ALL'||c.model===model);const s=$('#sort').value;
+ const by={new:(a,b)=>(!a.img-!b.img)||(a.days_on_site??9e9)-(b.days_on_site??9e9),pa:(a,b)=>a.price-b.price,pd:(a,b)=>b.price-a.price,ma:(a,b)=>a.miles-b.miles,yd:(a,b)=>b.year-a.year||a.price-b.price,ya:(a,b)=>a.year-b.year||a.price-b.price,dist:(a,b)=>(a.dist_lux_mi??9e9)-(b.dist_lux_mi??9e9)}[s];
+ return L.slice().sort(by)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function nm(c){return c.year+' BMW '+(c.title||'').replace(/^\d{4}\s+BMW\s+/i,'')}
+function card(c){const loc=[c.city,c.state].filter(Boolean).join(', ');const cond=(c.condition||'').toLowerCase();
+ return `<div class="card"><a class="ph" href="${esc(c.url)}" target="_blank" rel="noopener" title="Open listing on ${esc(c.source)}">${c.img?`<img loading="lazy" decoding="async" src="${esc(c.img)}" alt="${esc(nm(c))}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'noimg',textContent:'Photo unavailable — open listing'}))">`:'<span class="noimg">No photo — open listing</span>'}
+ <span class="badge"><i></i>${esc(NAME[c.model]||c.model)}</span>${cond&&cond!=='used'?`<span class="cond ${cond==='new'?'new':''}">${esc(c.condition)}</span>`:''}</a>
+ <div class="bd"><div class="ttl"><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(nm(c))}</a></div>
+ <div class="pr">${fmt(c.price)}${c.reduced?'<span class="red">▼ reduced</span>':''}</div>
+ <div class="ln"><b>${c.miles?mi(c.miles):'New / delivery miles'}</b>${c.drive?' · '+esc(String(c.drive).replace(/AWD4WD|4WD/,'AWD')):''}</div>
+ <div class="ln" title="${esc(c.color)}${c.interior?' / '+esc(c.interior):''}"><span class="dot" style="background:${colorHex(c)}"></span>${esc(c.color||'Color n/a')}${c.interior?' / '+esc(c.interior):''}</div>
+ <div class="ln" title="${esc(c.dealer)}">📍 ${esc(loc||'Location n/a')}${c.dist_lux_mi!=null?' · '+c.dist_lux_mi.toLocaleString('en-US')+' mi from Lux':''}</div>
+ <div class="ft"><span>${esc(c.source)}${c.days_on_site!=null?' · '+c.days_on_site+'d listed':''}</span><a href="${esc(c.url)}" target="_blank" rel="noopener">View ›</a></div></div></div>`}
+function stats(L){if(!L.length){$('#stats').innerHTML='';return}
+ const ch=L.reduce((a,b)=>b.price<a.price?b:a),U=L.filter(c=>c.miles>=100),lm=(U.length?U:L).reduce((a,b)=>b.miles<a.miles?b:a),avg=L.reduce((s,c)=>s+c.price,0)/L.length,top=L.reduce((a,b)=>b.price>a.price?b:a);
+ const S=(k,v,c)=>`<div class="stat"><div class="k">${k}</div><div class="v">${v}</div>${c?`<a class="s" href="${esc(c.url)}" target="_blank" rel="noopener">${esc(nm(c))}</a>`:''}</div>`;
+ $('#stats').innerHTML=S('Cheapest',fmt(ch.price),ch)+S('Lowest miles (used)',mi(lm.miles),lm)+S('Average price',fmt(avg),null).replace('</div></div>',`</div><div class="s">${L.length} car${L.length==1?'':'s'}${model==='ALL'?'':' · '+esc(NAME[model]||model)}</div></div>`)+S('Top dollar',fmt(top.price),top)}
+function render(){const L=list();stats(L);
+ $('#grid').innerHTML=L.length?L.slice(0,shown).map(card).join(''):'<div class="empty">No listings for this model right now. Check back after the next refresh.</div>';
+ $('#more').hidden=L.length<=shown;$('#more').textContent=`Show more (${L.length-shown} left)`}
+function chips(){const cnt={};D.listings.forEach(c=>cnt[c.model]=(cnt[c.model]||0)+1);
+ $('#chips').innerHTML=[['ALL','All M',D.listings.length],...ORDER.filter(m=>cnt[m]).map(m=>[m,NAME[m]||m,cnt[m]])].map(([k,l,n])=>`<button class="chip${k===model?' on':''}" data-m="${k}">${l}<small>${n}</small></button>`).join('');
+ document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{model=b.dataset.m;shown=48;chips();render();const cnt2=model==='ALL'?D.listings.length:cnt[model];tach(cnt2,D.listings.length)})}
+$('#sort').onchange=()=>{shown=48;render()};$('#more').onclick=()=>{shown+=48;render()};
+fetch('selman.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(d=>{D=d;
+ const t=new Date(d.updated);$('#upd').textContent='Updated '+t.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET';
+ chips();render();tach(d.listings.length,d.listings.length);
+ $('#foot').innerHTML=`${d.count} real listings of BMW M Competition models found on ${Object.entries(d.by_source).map(([k,v])=>esc(k)+' ('+v+')').join(' and ')}, nationwide. Prices and photos come straight from each listing; tap a photo to open it. Distance is straight-line miles from the Lux lot in Lakeland, FL. Refreshed with the daily update. Just for fun — not part of pricing.`;
+}).catch(e=>{$('#grid').innerHTML='<div class="empty">Couldn\'t load listings ('+esc(e.message)+'). Try reloading.</div>'});
+</script>
+</body></html>

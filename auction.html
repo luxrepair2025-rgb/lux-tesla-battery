@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Auction · Lux Automotive Internal Information Database</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0c0c0c">
+<link rel="icon" href="icons/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Lux">
+<script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{scope:'./',updateViaCache:'none'}).catch(()=>{}));</script>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#1d2433;--mut:#6b7385;--line:#e4e8ef;--green:#16a34a;--greenbg:#dcfce7;--orange:#ea8a0c;--orangebg:#ffedd5;--red:#dc2626;--redbg:#fee2e2}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;-webkit-text-size-adjust:100%}
+header{position:sticky;top:0;z-index:20;background:#0f172a;color:#fff;padding:7px 12px;display:flex;align-items:center;gap:8px}
+header h1{margin:0;font-size:15px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1 1 0}
+.chkbtn{background:#fff;color:#0f172a;border:0;border-radius:8px;padding:6px 11px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.3);text-decoration:none;white-space:nowrap}
+.chkbtn.rl{background:#334155;color:#e2e8f0}
+main{max-width:980px;margin:0 auto;padding:12px 12px 70px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:12px}
+h2{font-size:15px;margin:0 0 8px}h3{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);margin:0 0 8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+label.f{display:block;font-size:12px;font-weight:700;color:#334155;margin:8px 0 4px}
+.vinrow{display:flex;gap:8px}
+input.t{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:12px;font-size:17px;background:#fff;min-width:0}
+#vin{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1px;text-transform:uppercase}
+.btn{border:0;border-radius:10px;padding:12px 16px;font-size:15px;font-weight:800;cursor:pointer;white-space:nowrap}
+.btn.scan{background:#1e3a8a;color:#fff}.btn.go{background:#111827;color:#fff;width:100%;margin-top:12px;font-size:16px}.btn.go:disabled{opacity:.5}
+.btn.sm{padding:7px 11px;font-size:12.5px;background:#e2e8f0;color:#111827}
+.vmsg{font-size:12.5px;margin-top:5px;min-height:16px}.vmsg.err{color:var(--red)}.vmsg.warn{color:#b45309}.vmsg.ok{color:var(--green)}
+.toasts{position:fixed;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom));z-index:60;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 12px}
+.toast{pointer-events:auto;max-width:520px;width:100%;background:#0c0c0c;color:#fff;border-radius:12px;padding:11px 14px;font-size:14px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.35);border-left:5px solid #e29d34;transform:translateY(20px);opacity:0;transition:all .25s}
+.toast.on{transform:none;opacity:1}.toast.big{border-left-color:#16a34a;font-size:15.5px;padding:14px 16px}.toast .ts{display:block;font-weight:500;font-size:12.5px;color:#d6d3cd;margin-top:2px}
+.banner.ready{display:block;background:#0c0c0c;color:#fff;border-left:6px solid #16a34a;font-size:15px;font-weight:700;padding:12px 14px}.banner.ready .sub{color:#d6d3cd}
+.notifybar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;border:1px dashed #e29d34;border-radius:10px;padding:9px 12px;margin-bottom:12px;font-size:13px}
+.notifybar .btn{padding:8px 13px;font-size:13.5px;background:#e29d34;color:#111}.notifybar .on{color:#14532d;font-weight:700}.notifybar .hint{color:#6f6a62;font-size:12px;flex-basis:100%}
+.banner{border-radius:10px;padding:9px 12px;font-size:13px;margin-bottom:12px;display:none}.banner.on{display:block}
+.banner.info{background:#eff6ff;color:#1e3a8a}.banner.warn{background:#fef3c7;color:#78350f}.banner.err{background:#fee2e2;color:#991b1b}.banner.ok{background:#dcfce7;color:#14532d}
+.recent a{display:flex;justify-content:space-between;gap:8px;padding:9px 2px;border-bottom:1px solid var(--line);color:inherit;text-decoration:none}.recent a:last-child{border-bottom:0}
+.recent .rt{font-weight:700}.sub{color:var(--mut);font-size:12px}.mono{font-family:ui-monospace,Menlo,monospace}
+.tag{font-size:11px;padding:2px 7px;border-radius:5px;background:#eef2ff;color:#3730a3;font-weight:700;letter-spacing:0;text-transform:none}
+.tag.pend{background:#fef3c7;color:#92400e}.tag.ok{background:#dcfce7;color:#166534}.tag.local{background:#e0f2fe;color:#075985}.tag.none{background:#f1f5f9;color:#475569}
+.pendbox{background:repeating-linear-gradient(45deg,#fffbeb,#fffbeb 8px,#fef3c7 8px,#fef3c7 16px);border:1px dashed #f59e0b;border-radius:10px;padding:10px 12px;font-size:13px;color:#78350f}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px}.kv b{color:#475569;font-weight:600}
+.bidbox{background:#0f172a;color:#fff;border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.bidbox .k{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:#94a3b8;font-weight:700}.bidbox .v{font-size:34px;font-weight:900;margin:2px 0}
+.bidbox .basis{display:inline-block;font-size:11.5px;font-weight:800;border-radius:6px;padding:2px 8px;background:#334155;color:#e2e8f0}.bidbox .basis.p{background:#f59e0b;color:#111}
+.math{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}.math td{padding:3px 0;border-bottom:1px solid #1e293b}.math td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:8px}
+.math tr.s td{font-weight:800}.math tr.f td{color:#86efac;font-size:14px;border-bottom:0}
+.gross{margin-top:8px;font-size:13px;color:#cbd5e1}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:9px 11px}.stat .t{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--mut);font-weight:700}.stat .v{font-size:20px;font-weight:800;margin-top:2px}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-weight:800;font-size:12.5px}.pill.green{background:var(--greenbg);color:var(--green)}.pill.orange{background:var(--orangebg);color:var(--orange)}.pill.red{background:var(--redbg);color:var(--red)}.pill.grey{background:#f1f5f9;color:#334155}
+.recall{border-top:1px solid var(--line);padding:7px 0;font-size:13px}.recall:first-child{border-top:0}
+details summary{cursor:pointer;font-weight:700;font-size:13px;margin:6px 0}
+.compgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-top:8px}
+.comp{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;font-size:12.5px;display:flex;flex-direction:column}
+.comp a.ph{display:block;aspect-ratio:4/3;background:#e5e7eb}.comp a.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.comp .noimg{display:flex;align-items:center;justify-content:center;height:100%;color:#475569;font-size:12px;text-align:center;padding:8px;background:repeating-linear-gradient(45deg,#eef0f4,#eef0f4 6px,#e5e7eb 6px,#e5e7eb 12px)}
+.comp .cb{padding:8px 10px}.comp .cp{font-size:16px;font-weight:800}.comp .src{font-size:11px;color:var(--mut)}.comp .dist{font-weight:600;color:#1e3a8a}
+.comp .adj{font-size:11px;color:#334155;background:#f1f5f9;border-radius:4px;padding:1px 5px;display:inline-block;margin-top:3px}
+.bm{display:inline-block;font-size:10.5px;font-weight:700;background:#fef3c7;color:#92400e;border:1px solid #fcd34d;border-radius:4px;padding:0 5px;margin-bottom:3px}
+.cfx{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.note{font-size:12px;color:var(--mut);margin-top:6px}
+#scanner,#photoView{position:fixed;inset:0;background:#000;z-index:60;display:none;flex-direction:column}#scanner.on,#photoView.on{display:flex}
+#camWrap{position:relative;flex:1;min-height:0;overflow:hidden}#camWrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#guide{position:absolute;left:4%;right:4%;top:50%;height:11%;min-height:56px;transform:translateY(-50%);border:3px solid #22c55e;border-radius:10px;box-shadow:0 0 0 9999px rgba(0,0,0,.45);pointer-events:none}
+#guide.hit{border-color:#facc15}
+#guideTip{position:absolute;left:0;right:0;top:calc(50% - 11% / 2 - 40px);text-align:center;color:#fff;font-weight:800;font-size:15px;text-shadow:0 1px 3px #000;pointer-events:none}
+#ocrLive{position:absolute;left:0;right:0;top:calc(50% + 11% / 2 + 12px);text-align:center;color:#cbd5e1;font:13px ui-monospace,Menlo,monospace;text-shadow:0 1px 2px #000;pointer-events:none;padding:0 10px;word-break:break-all}
+.sbar{display:flex;gap:8px;padding:10px 12px;padding-bottom:calc(10px + env(safe-area-inset-bottom));background:#0f172a;align-items:center;flex-wrap:wrap}
+#scanMsg,#photoMsg{color:#e2e8f0;font-size:13px;flex-basis:100%}
+#photoBox{position:relative;flex:1;min-height:0;overflow:auto;display:flex;align-items:center;justify-content:center;background:#111}
+#photoImg{max-width:100%;max-height:100%;display:block}#tapMark{position:absolute;left:0;right:0;height:16%;border:3px solid #facc15;border-radius:8px;display:none;pointer-events:none}
+#confirm{position:fixed;left:0;right:0;bottom:0;z-index:70;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.35);padding:16px 16px calc(16px + env(safe-area-inset-bottom));display:none}#confirm.on{display:block}
+#confirm .cv{font:800 25px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1.5px;text-align:center;margin:6px 0;word-break:break-all}
+#confirm .cn{text-align:center;font-size:13px;margin-bottom:12px}#confirm .alts{text-align:center;font-size:12px;margin:-6px 0 12px;color:var(--mut)}#confirm .alts button{font:700 12.5px ui-monospace,Menlo,monospace;border:1px solid #cbd5e1;background:#f8fafc;border-radius:6px;padding:4px 7px;margin:3px}
+.reading{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(15,23,42,.88);color:#fff;border-radius:14px;padding:16px 22px;font-weight:800;font-size:17px;display:none;align-items:center;gap:12px;z-index:5;pointer-events:none;white-space:nowrap}.reading.on{display:flex}
+.spin{width:22px;height:22px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp 0.8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+#shutter{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:76px;height:76px;border-radius:50%;border:5px solid #fff;background:rgba(255,255,255,.25);z-index:4;color:#fff;font-weight:800;font-size:12px;box-shadow:0 2px 10px rgba(0,0,0,.5)}#shutter:active{background:rgba(255,255,255,.6)}#shutter[disabled]{opacity:.5}#confirm .row{display:flex;gap:10px}#confirm .row .btn{flex:1}
+.btn.photo{background:#16a34a;color:#fff;width:100%;font-size:17px;padding:15px}.btns2{display:flex;gap:8px;margin-top:8px}.btns2 .btn{flex:1}
+@media(max-width:700px){
+ .chkbtn{padding:5px 8px;font-size:11.5px}
+ .compgrid{grid-template-columns:1fr 1fr;gap:8px}
+ .comp{font-size:11px}.comp a.ph{aspect-ratio:auto;height:95px}.comp .cb{padding:6px 7px}.comp .cp{font-size:14px}.comp .src,.comp .adj{font-size:10px}.comp .ct{font-size:11px;line-height:1.25}.bm{font-size:9.5px}
+ .bidbox .v{font-size:30px}
+}
+@media(max-width:400px){header .hide-xs{display:none}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&display=swap">
+<style id="lux-theme">
+/* Lux theme overlay (same palette as the main app's themes/lux.css). Delete this <style> block + the logo <a> to get the old look back. */
+:root{--gold:#e29d34;--gold-d:#c4811c;--gold-ink:#8f5a12;--char:#2c2d31;--blk:#0c0c0c;--bg:#f6f4f0;--ink:#1b1b1d;--mut:#6f6a62;--line:#e8e3da}
+body{font-family:"Mulish","Muli","Helvetica Neue",Helvetica,Arial,sans-serif}
+header{background:var(--blk);border-bottom:3px solid var(--gold);padding-top:calc(5px + env(safe-area-inset-top));padding-bottom:5px}
+header .lux-logo{height:28px;width:auto;display:block}
+header h1{font-size:13.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;color:#f3efe8;border-left:1px solid #4a4a4e;padding-left:9px}
+.chkbtn{font-family:inherit;border-radius:6px;font-weight:800;box-shadow:none}
+.chkbtn:not(.rl){background:var(--gold);color:#111}.chkbtn.rl{background:var(--char);color:#eee}
+.card{border-radius:10px}
+button,input,select{font-family:inherit}
+.btn.go{background:var(--blk)}.btn.go:not(:disabled){box-shadow:inset 0 -3px 0 var(--gold)}
+.bidbox{background:var(--blk);border-bottom:3px solid var(--gold)}
+.sbar{background:var(--blk)}
+a{color:var(--gold-ink)}
+</style>
+</head><body>
+<header><a href="./" title="Lux Automotive — inventory"><img class="lux-logo" src="icons/lux-logo-h64.png" alt="Lux Automotive" width="59" height="28"></a><h1>Auction</h1><a class="chkbtn rl" href="./">← <span class="hide-xs">Inventory</span></a><button class="chkbtn rl" id="reloadBtn" type="button" title="Reload (bypass cache)">↻</button><button class="chkbtn" id="newBtn" type="button">＋ New VIN</button></header>
+<main>
+<div id="banner" class="banner" role="status"></div><div class="toasts" id="toasts" aria-live="polite"></div>
+<section id="formView">
+ <div class="card">
+  <h2>Capture the VIN</h2>
+    <button class="btn photo" id="photoBtn" type="button">📸 Take photo of VIN</button>
+  <div class="btns2"><button class="btn scan" id="scanBtn" type="button">🎥 Live scan</button></div>
+  <div id="ocrNote" class="vmsg warn" style="display:none;margin:8px 0 0"></div>
+  <div class="sub" style="margin:6px 0 2px">Windshield plate, door-jamb sticker or paperwork — the whole sticker/plate in the photo is fine, no need to zoom. Read in the cloud in ~2–5 s.</div>
+  <input type="file" id="photoIn" accept="image/*" capture="environment" style="display:none">
+  <input class="t" id="vin" maxlength="20" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" enterkeyhint="next" placeholder="…or type the 17-character VIN" style="margin-top:10px">
+  <div id="vinMsg" class="vmsg"></div>
+  <label class="f" for="miles">Miles <span class="sub">(optional — from the run list / dash)</span></label>
+  <input class="t" id="miles" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="e.g. 48,200">
+  <button class="btn go" id="goBtn" type="button">Get auction report</button>
+  <div class="note">Vehicle decode, recalls and EPA show instantly. Comparable retail, MMR and CARFAX fill in over a few minutes.</div>
+ </div>
+ <div class="card"><h3>Recent lookups</h3><div id="recent" class="recent"><div class="sub">Loading…</div></div></div>
+</section>
+<section id="reportView" style="display:none"></section>
+</main>
+<div id="scanner" role="dialog" aria-label="Scan VIN"><div id="camWrap"><video id="vid" playsinline muted autoplay></video><div id="guideTip">Point at the VIN, then tap Capture</div><div id="guide"></div><div id="ocrLive"></div><div class="reading" id="readingLive"><div class="spin"></div><span>Reading VIN…</span></div><button id="shutter" type="button" aria-label="Capture">Capture</button></div>
+ <div class="sbar"><div id="scanMsg">Starting camera…</div>
+ <button class="btn sm" id="torchBtn" type="button" style="display:none">🔦 Light</button>
+ <button class="btn sm" id="scanPhotoBtn" type="button">📸 Take photo instead</button>
+ <button class="btn sm" id="scanCancel" type="button" style="margin-left:auto">Cancel</button></div></div>
+<div id="photoView" role="dialog" aria-label="Read VIN from photo"><div id="photoBox"><img id="photoImg" alt="VIN photo"><div id="tapMark"></div><div class="reading" id="readingPhoto"><div class="spin"></div><span>Reading VIN…</span></div></div>
+ <div class="sbar"><div id="photoMsg">Reading…</div><button class="btn sm" id="photoAgain" type="button">📸 Retake</button><button class="btn sm" id="photoCancel" type="button" style="margin-left:auto">Cancel</button></div></div>
+<div id="confirm" role="dialog" aria-label="Confirm VIN"><div class="sub" style="text-align:center">VIN found</div><div class="cv" id="cfVin"></div><div class="cn" id="cfNote"></div><div class="alts" id="cfAlts"></div>
+ <div class="row"><button class="btn sm" id="cfRescan" type="button" style="padding:13px">↺ Rescan</button><button class="btn go" id="cfUse" type="button" style="margin:0">Use this VIN</button></div></div>
+<script src="vinscan.js?v=20261010a"></script>
+<script>
+const RELAY='https://lux-check-inventory.luxrepair2025.workers.dev/auction';
+const POLL_MS=15000, POLL_MAX_MS=30*60*1000;   // after 30 min: every 60 s (never stops while the page is open)
+let BIDCFG={recon_fees:1500,min_gross:1500,gross_pct:0.08,round_down_to:100,typical_mi_yr:13500};  // overwritten by auctions/config.json (auction.py CONFIG)
+// expected wait after the request reaches the routine (shown on Pending sections)
+const WAIT={comps:'~1–3 min',mmr:'~3–8 min',carfax:'~5–10 min',decode:'seconds',recalls:'seconds',epa:'seconds'};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const usd=v=>v==null||v===''?'—':(v<0?'−':'')+'$'+Math.abs(Math.round(v)).toLocaleString('en-US');
+const fmt=v=>v==null?'—':Math.round(v).toLocaleString('en-US');
+const nocache=u=>u+(u.includes('?')?'&':'?')+'t='+Date.now();
+async function getJSON(u,opt){const r=await fetch(u,opt||{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}
+fetch(nocache('auctions/config.json'),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(j&&j.bid)BIDCFG=Object.assign(BIDCFG,j.bid);}).catch(()=>{});
+function banner(cls,html){const b=$('#banner');b.className='banner on '+cls;b.innerHTML=html;}
+function noBanner(){$('#banner').className='banner';}
+
+// ---------- VIN validation ----------
+function cleanVin(v){v=String(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(v.length==18&&v[0]=='I')v=v.slice(1);return v;}
+function checkDigit(v){const t={};'0123456789'.split('').forEach((c,i)=>t[c]=i);'ABCDEFGH'.split('').forEach((c,i)=>t[c]=i+1);'JKLMN'.split('').forEach((c,i)=>t[c]=i+1);t.P=7;t.R=9;'STUVWXYZ'.split('').forEach((c,i)=>t[c]=i+2);
+ const w=[8,7,6,5,4,3,2,10,0,9,8,7,6,5,4,3,2];let s=0;for(let i=0;i<17;i++)s+=t[v[i]]*w[i];s%=11;return (s==10?'X':String(s))==v[8];}
+function validate(){const v=cleanVin($('#vin').value),m=$('#vinMsg');
+ if(!v){m.className='vmsg';m.textContent='';return null;}
+ if(/[IOQ]/.test(v)){m.className='vmsg err';m.textContent='A VIN never contains I, O or Q — check those characters (0 vs O, 1 vs I).';return null;}
+ if(v.length!=17){m.className='vmsg err';m.textContent=`${v.length}/17 characters`;return null;}
+ if(!checkDigit(v)){m.className='vmsg warn';m.textContent='⚠ Check digit does not match — double-check the VIN (you can still continue; some pre-1981 / non-US VINs fail this).';return v;}
+ m.className='vmsg ok';m.textContent='✓ Valid VIN';return v;}
+$('#vin').addEventListener('input',e=>{const el=e.target,p=el.selectionStart,u=el.value.toUpperCase();if(u!=el.value){el.value=u;try{el.setSelectionRange(p,p);}catch(x){}}validate();});
+$('#miles').addEventListener('input',e=>{const d=e.target.value.replace(/[^0-9]/g,'');e.target.value=d?(+d).toLocaleString('en-US'):'';});
+
+// ---------- VIN capture: live camera (OCR + barcode in parallel), still photo (OCR + barcode), typing — see vinscan.js ----------
+let LIVE=null,FROM=null;
+function showConfirm(r,from){FROM=from;$('#cfVin').textContent=r.vin;
+ const how=r.how=='barcode'?'barcode':r.how=='cloud'?'cloud reader':'on-phone text reader';
+ const ok='<span style="color:#16a34a;font-weight:700">',wn='<span style="color:#b45309;font-weight:700">';
+ let note;
+ if(r.valid&&r.corrected)note=wn+`✓ Check digit valid after fixing one look-alike character (position ${r.corrected.at}: ${esc(r.corrected.from)}→${esc(r.corrected.to)}) — compare every character</span>`;
+ else if(r.valid&&!r.unsure)note=ok+'✓ Check digit valid</span>';
+ else if(r.valid&&r.how!='cloud'&&r.how!='barcode')note=wn+'⚠ Low-confidence reading by the on-phone reader — compare EVERY character with the vehicle before using it</span>';
+ else if(r.valid)note=wn+'⚠ Probably right, but the text was hard to read — compare every character with the vehicle</span>';
+ else note=wn+'⚠ Compare every character with the vehicle'+(VinScan.isNA(r.vin)?' — the check digit doesn\'t match':' (check digit doesn\'t match — normal for many European/Asian VINs)')+'</span>';
+ $('#cfNote').innerHTML=note+` · ${how}${r.ms!=null?' · '+(r.ms/1000).toFixed(1)+' s':''}`;
+ const alts=[...(r.alternatives||[]),...(r.others||[])].filter((v,i,a)=>v&&v!=r.vin&&a.indexOf(v)==i).slice(0,3);
+ $('#cfAlts').innerHTML=alts.length?'Other possible readings: '+alts.map(v=>`<button type="button" data-v="${esc(v)}">${esc(v)}</button>`).join(''):'';
+ $('#cfAlts').querySelectorAll('button').forEach(bt=>bt.onclick=()=>showConfirm(Object.assign({},r,{vin:bt.dataset.v,valid:checkDigit(bt.dataset.v),unsure:true,corrected:null,alternatives:[],others:alts.filter(x=>x!=bt.dataset.v).concat(r.vin)}),from));
+ $('#cfRescan').textContent=from=='live'?'↺ Rescan':'📸 Retake';
+ $('#confirm').classList.add('on');if(navigator.vibrate)navigator.vibrate([60,40,60]);}
+function hideConfirm(){$('#confirm').classList.remove('on');}
+$('#cfUse').onclick=()=>{const v=$('#cfVin').textContent;hideConfirm();closeScanner();closePhoto();$('#vin').value=v;validate();$('#miles').focus();};
+$('#cfRescan').onclick=()=>{hideConfirm();$('#guide').classList.remove('hit');if(FROM=='live'&&LIVE)LIVE.resume();else if(FROM=='photo')$('#photoIn').click();};
+async function openScanner(){hideConfirm();$('#scanner').classList.add('on');$('#scanMsg').textContent='Starting camera…';$('#ocrLive').textContent='';VinScan.preload();
+ try{LIVE=await VinScan.live({video:$('#vid'),guide:$('#guide'),onStatus:t=>$('#scanMsg').textContent='Point at the VIN and tap Capture (on-phone reader: '+t.toLowerCase()+').',
+   onRead:(t,r)=>{$('#ocrLive').textContent=(t||'').replace(/\s+/g,' ').trim().slice(0,40);},
+   onFound:r=>{if($('#confirm').classList.contains('on'))return;if(CAP_AC)CAP_AC.abort();$('#readingLive').classList.remove('on');$('#shutter').disabled=false;$('#guide').classList.add('hit');showConfirm(r,'live');}});
+  if(LIVE.hasTorch){const b=$('#torchBtn');b.style.display='';let on=false;b.onclick=()=>{on=!on;LIVE.torch(on);b.textContent=on?'🔦 Light off':'🔦 Light';};}
+  $('#scanMsg').textContent='Point at the VIN (plate, sticker or paper) and tap Capture.';
+ }catch(e){$('#scanMsg').textContent=(e&&e.name=='NotAllowedError')?'Camera permission denied — allow camera access, or use 📸 Take photo / type the VIN.':'Camera unavailable ('+(e.message||e)+'). Use 📸 Take photo or type the VIN.';}}
+function closeScanner(){if(CAP_AC)CAP_AC.abort();$('#readingLive').classList.remove('on');$('#shutter').disabled=false;if(LIVE)LIVE.stop();LIVE=null;$('#scanner').classList.remove('on');$('#torchBtn').style.display='none';$('#guide').classList.remove('hit');}
+$('#scanBtn').onclick=openScanner;$('#scanCancel').onclick=()=>{hideConfirm();closeScanner();};
+$('#scanPhotoBtn').onclick=()=>{hideConfirm();closeScanner();$('#photoIn').click();};
+$('#photoBtn').onclick=()=>{$('#photoIn').click();};
+let PHOTO_RUN=0,PHOTO_AC=null;
+function closePhoto(){PHOTO_RUN++;if(PHOTO_AC)PHOTO_AC.abort();$('#photoView').classList.remove('on');$('#tapMark').style.display='none';$('#readingPhoto').classList.remove('on');}
+$('#photoCancel').onclick=()=>{hideConfirm();closePhoto();};$('#photoAgain').onclick=()=>{hideConfirm();$('#photoIn').click();};
+// cloud first (fast, reads the whole photo); a barcode found on the phone meanwhile wins if its check digit passes.
+// If the cloud is over its free daily limit / unreachable, say so plainly and run the on-phone reader automatically.
+const LIMIT_MSG='Cloud reader is over today’s free limit — type the VIN or try the on-phone reader';
+const OFFLINE_MSG='Cloud reader unreachable (no connection?) — type the VIN or try the on-phone reader';
+const cloudMsg=e=>e&&e.code=='daily_limit'?LIMIT_MSG:e&&e.code=='image'?'Could not open that photo — retake it with the camera, or type the VIN':e&&e.code=='canvas'?(e.message+' — or type the VIN'):OFFLINE_MSG;
+function ocrNote(){const n=$('#ocrNote');if(!n)return;const on=VinScan.cloudLimited&&VinScan.cloudLimited();n.style.display=on?'':'none';
+ if(on)n.innerHTML='⚠ '+esc(LIMIT_MSG)+'. Photos are read on the phone for now (slower, ~20–60 s; double-check the result). Resets 8 PM ET.';}
+ocrNote();
+const PHONE_BUDGET_MS=60000;
+async function phoneRead(src,o){  // on-device Tesseract + barcode with a visible timer; o: {tap, alive(), onTick(s)}
+ return VinScan.readImage(src,{tap:o.tap,budgetMs:PHONE_BUDGET_MS,cancelled:()=>!o.alive(),onProgress:s=>o.onTick&&o.onTick(s)});}
+async function readPhoto(tap){const img=$('#photoImg'),run=++PHOTO_RUN;const msg=$('#photoMsg'),spin=$('#readingPhoto'),st=t=>spin.querySelector('span').textContent=t;
+ if(PHOTO_AC)PHOTO_AC.abort();const ac=PHOTO_AC=new AbortController();const live=()=>run==PHOTO_RUN;
+ const W=img.naturalWidth,H=img.naturalHeight;
+ if(!W||!H){spin.classList.remove('on');msg.textContent='Could not open that photo (unsupported format?) — retake it with the camera, or type the VIN.';return;}
+ msg.textContent=tap?'Reading the marked line…':'Reading VIN… (tap the VIN in the photo to point at it)';spin.classList.add('on');st('Reading VIN…');
+ let done=false;const win=r=>{if(done||!live())return;done=true;ac.abort();spin.classList.remove('on');msg.textContent='Found.';showConfirm(r,'photo');};
+ const focus=tap?[0,Math.max(0,Math.round((tap.y-.15)*H)),W,Math.round(.3*H)]:null;
+ const bc=(async()=>{const c=document.createElement('canvas');try{const k=Math.min(1,2000/Math.max(W,H));c.width=W*k;c.height=H*k;c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+   const v=await VinScan.barcode(c);if(v){const r=VinScan.fromBarcode(v);if(r&&VinScan.checkDigit(r))win({vin:r,valid:true,how:'barcode'});}}catch(e){}finally{c.width=c.height=0;}})();
+ let cloudErr=null;
+ if(VinScan.cloudLimited()){cloudErr={code:'daily_limit'};}
+ else try{const r=await VinScan.cloudRead(img,{focus,signal:ac.signal,onStage:t=>{if(live()&&!done)st(t);}});
+  if(!live()||done)return;
+  if(r){win(r);return;}
+  spin.classList.remove('on');msg.textContent='No VIN found. Tap the VIN in the photo, or retake a little closer (avoid glare on the glass).';return;}
+ catch(e){cloudErr=e;}
+ if(!live()||done)return;
+ ocrNote();
+ if(cloudErr.code=='image'||cloudErr.code=='canvas'){spin.classList.remove('on');msg.textContent=cloudMsg(cloudErr)+'.';return;}
+ msg.textContent=cloudMsg(cloudErr)+'. Trying the on-phone reader now…';st('On-phone reader…');
+ try{const r=await phoneRead(img,{tap,alive:()=>live()&&!done,onTick:s=>{if(live()&&!done)st('On-phone reader… '+s+' s');}});
+  if(!live()||done)return;spin.classList.remove('on');
+  if(r)win(Object.assign(r,{how:r.how=='barcode'?'barcode':'ocr'}));
+  else msg.textContent=cloudMsg(cloudErr)+'. The on-phone reader found no VIN — type it, or retake closer and straight-on (then tap the VIN line).';}
+ catch(e2){if(live()){spin.classList.remove('on');msg.textContent='On-phone reader failed ('+(e2.message||e2)+') — please type the VIN.';}}}
+$('#photoIn').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;hideConfirm();
+ const img=$('#photoImg');$('#photoView').classList.add('on');$('#tapMark').style.display='none';$('#photoMsg').textContent='Loading photo…';$('#readingPhoto').classList.add('on');
+ if(img.src)URL.revokeObjectURL(img.src);img.removeAttribute('src');
+ const ok=await new Promise(res=>{img.onload=()=>res(true);img.onerror=()=>res(false);img.src=URL.createObjectURL(f);});
+ try{await img.decode();}catch(err){}
+ if(!ok||!img.naturalWidth){$('#readingPhoto').classList.remove('on');$('#photoMsg').textContent='Could not open that photo'+(/hei[cf]/i.test(f.type+f.name)?' (HEIC)':'')+' — retake it with the camera (📸 Retake), or type the VIN.';return;}
+ readPhoto(null);};
+$('#photoImg').onclick=e=>{if(!e.target.naturalWidth)return;const r=e.target.getBoundingClientRect();const y=(e.clientY-r.top)/r.height;const m=$('#tapMark');const box=$('#photoBox').getBoundingClientRect();
+ m.style.display='block';m.style.left=(r.left-box.left)+'px';m.style.right=(box.right-r.right)+'px';m.style.top=(r.top-box.top+y*r.height-r.height*.15)+'px';m.style.height=(r.height*.3)+'px';hideConfirm();readPhoto({y});};
+// live scan: Capture = full-resolution frame to the cloud reader (guide box first); on-phone OCR/barcode keep running as a bonus.
+// If the cloud is over its limit / unreachable: say so, and read the captured frame on the phone right away.
+let CAP_AC=null;
+$('#shutter').onclick=async()=>{const v=$('#vid');if(!v.videoWidth)return;hideConfirm();
+ const c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);
+ const g=$('#guide').getBoundingClientRect(),w=$('#camWrap').getBoundingClientRect();
+ const k=Math.max(w.width/c.width,w.height/c.height),ox=(c.width*k-w.width)/2,oy=(c.height*k-w.height)/2;   // object-fit:cover mapping
+ let fx=(g.left-w.left+ox)/k,fy=(g.top-w.top+oy)/k,fw=g.width/k,fh=g.height/k;fx-=fw*.08;fw*=1.16;fy-=fh*.6;fh*=2.2;
+ fx=Math.max(0,fx);fy=Math.max(0,fy);fw=Math.min(c.width-fx,fw);fh=Math.min(c.height-fy,fh);
+ if(CAP_AC)CAP_AC.abort();const ac=CAP_AC=new AbortController();const sh=$('#shutter'),sp=$('#readingLive'),st=t=>sp.querySelector('span').textContent=t;sh.disabled=true;sp.classList.add('on');st('Reading VIN…');
+ let cloudErr=null;
+ try{
+  if(VinScan.cloudLimited())cloudErr={code:'daily_limit'};
+  else try{const r=await VinScan.cloudRead(c,{focus:[fx,fy,fw,fh].map(Math.round),signal:ac.signal,onStage:st});
+   if(ac.signal.aborted||!LIVE)return;
+   if(r){if(LIVE)LIVE.pause();$('#guide').classList.add('hit');showConfirm(r,'live');return;}
+   $('#scanMsg').textContent='No VIN found in that shot — get a little closer, avoid glare, and tap Capture again.';return;}
+  catch(e){cloudErr=e;}
+  if(ac.signal.aborted||!LIVE)return;
+  ocrNote();$('#scanMsg').textContent=cloudMsg(cloudErr)+'. Reading this shot on the phone…';
+  if(LIVE)LIVE.pause();st('On-phone reader…');
+  const bandY=(fy+fh/2)/c.height;
+  const r=await phoneRead(c,{tap:{y:bandY},alive:()=>!ac.signal.aborted&&!!LIVE,onTick:s=>st('On-phone reader… '+s+' s')});
+  if(ac.signal.aborted||!LIVE)return;
+  if(r){$('#guide').classList.add('hit');showConfirm(Object.assign(r,{how:r.how=='barcode'?'barcode':'ocr'}),'live');}
+  else{LIVE.resume();$('#scanMsg').textContent=cloudMsg(cloudErr)+'. Not read on the phone either — hold steady with the VIN in the box (the on-phone reader keeps trying), or type it.';}}
+ catch(e){if(!ac.signal.aborted){$('#scanMsg').textContent=cloudMsg(cloudErr||e)+'.';if(LIVE)LIVE.resume();}}
+ finally{sh.disabled=false;sp.classList.remove('on');c.width=c.height=0;}};
+// ---------- recent lookups ----------
+async function loadRecent(){const el=$('#recent');
+ try{const j=await getJSON(nocache('auctions/index.json'));const it=j.items||[];
+  el.innerHTML=it.length?it.map(x=>`<a href="#vin=${esc(x.vin)}"><div><div class="rt">${esc(x.title)}</div><div class="sub mono">${esc(x.vin)}${x.miles!=null?' · '+fmt(x.miles)+' mi'+(x.miles_assumed?' (assumed)':''):''}</div><div class="sub">${esc(new Date(x.requested_at).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}))}${x.lux_stock?' · Lux stock '+esc(x.lux_stock):''}</div></div><div style="text-align:right"><div class="rt">${x.max_bid?usd(x.max_bid):'—'}</div><div class="sub">${x.pending&&x.pending.length?'<span class="tag pend">Pending</span>':'max bid'}</div></div></a>`).join(''):'<div class="sub">No auction lookups yet.</div>';
+ }catch(e){el.innerHTML='<div class="sub">No auction lookups yet.</div>';}}
+
+// ---------- instant client-side data (NHTSA vPIC + recalls, fueleconomy.gov, inventory data.json) ----------
+async function vpic(vin){const j=await getJSON(`https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/${vin}?format=json`,{});const d=(j.Results||[{}])[0];
+ const y=+d.ModelYear||null,tesla=(d.Make||'').toUpperCase()=='TESLA';
+ const eng=[d.EngineCylinders&&d.EngineCylinders+' cyl',d.DisplacementL&&(+d.DisplacementL).toFixed(1)+' L',d.EngineModel,d.EngineHP&&d.EngineHP+' hp',d.Turbo=='Yes'?'turbo':''].filter(Boolean).join(' ')||(tesla?'Electric motor(s)':null);
+ const nd=s=>{s=(s||'').toUpperCase();for(const [k,v] of [['4WD','4WD'],['4X4','4WD'],['4-WHEEL','4WD'],['AWD','AWD'],['ALL-WHEEL','AWD'],['FWD','FWD'],['FRONT','FWD'],['RWD','RWD'],['REAR','RWD']])if(s.includes(k))return v;return '';};
+ const mk=d.Make?(['BMW','GMC','RAM'].includes(d.Make)?d.Make:(tesla?'Tesla':d.Make.replace(/\w\S*/g,w=>w[0]+w.slice(1).toLowerCase()))):null;
+ return {raw:d,tesla,vehicle:{year:y,make:mk,model:d.Model||null,trim:[d.Trim,d.Series].filter(Boolean).join(' ')||null,engine:eng,drivetrain:d.DriveType||null,drive:nd(d.DriveType),fuel:d.FuelTypePrimary||(tesla?'Electric':null),
+  body:d.BodyClass||null,transmission:[d.TransmissionStyle,d.TransmissionSpeeds&&d.TransmissionSpeeds+'-speed'].filter(Boolean).join(' ')||null,plant:[d.PlantCity,d.PlantState,d.PlantCountry].filter(Boolean).map(s=>s.replace(/\w\S*/g,w=>w[0]+w.slice(1).toLowerCase())).join(', ')||null,
+  decode_ok:String(d.ErrorCode||'').startsWith('0'),decode_msg:String(d.ErrorCode||'').startsWith('0')?null:d.ErrorText,age:y?Math.max(.25,(Date.now()-new Date(y,0,1))/3.15576e10):null}};}
+async function recallsFor(v,vin){const q=new URLSearchParams({make:v.raw.Make||v.vehicle.make,model:v.vehicle.model,modelYear:v.vehicle.year});
+ const j=await getJSON('https://api.nhtsa.gov/recalls/recallsByVehicle?'+q,{});
+ const dt=s=>/^\d\d\/\d\d\/\d{4}$/.test(s||'')?s.split('/').reverse().join('-'):s;
+ return {scope:`model-level (all ${v.vehicle.year} ${v.vehicle.make} ${v.vehicle.model}); check the VIN on nhtsa.gov for open status`,url:`https://www.nhtsa.gov/recalls?vin=${vin}`,
+  items:(j.results||[]).map(x=>({id:x.NHTSACampaignNumber,date:dt(x.ReportReceivedDate),component:(x.Component||'').toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()),summary:(x.Summary||'').slice(0,500),remedy:(x.Remedy||'').slice(0,300)}))};}
+const FE='https://www.fueleconomy.gov/ws/rest/';
+const feJ=async p=>{try{return await getJSON(FE+p,{headers:{Accept:'application/json'}});}catch(e){return null;}};
+const items=r=>{const m=r&&r.menuItem;return Array.isArray(m)?m:(m?[m]:[]);};
+async function epaFor(v){const V=v.vehicle,y=V.year;if(!y)return null;
+ if(v.tesla){const tu=(V.trim||'').toUpperCase();const tk=['PLAID','PERFORMANCE','LONG RANGE','STANDARD'].find(k=>tu.includes(k))||null;
+  const ms=items(await feJ(`vehicle/menu/model?year=${y}&make=Tesla`)).filter(m=>m.text.toLowerCase().startsWith((V.model||'').toLowerCase()));
+  const sc=t=>{t=t.toLowerCase();return (tk&&t.includes(tk.toLowerCase())?3:0)+(V.drive&&t.includes(V.drive.toLowerCase())?1:0)-(tk!='PERFORMANCE'&&t.includes('performance')?2:0)-(tk!='PLAID'&&t.includes('plaid')?2:0);};
+  ms.sort((a,b)=>sc(b.text)-sc(a.text));if(!ms.length)return {kind:'ev',none:'EPA range not found'};
+  for(const o of items(await feJ(`vehicle/menu/options?year=${y}&make=Tesla&model=${encodeURIComponent(ms[0].text)}`))){const d=await feJ('vehicle/'+o.value);
+   if(d&&+d.range>0)return {kind:'ev',range:+d.range,label:`${y} Tesla ${ms[0].text} (${o.text})`,url:`https://www.fueleconomy.gov/feg/noframes/${d.id}.shtml`,note:'Instant browser match; the server report may refine it.'};}
+  return {kind:'ev',none:'EPA range not found'};}
+ if(/Class 2H|Class [3-8]/.test(v.raw.GVWR||''))return {kind:'mpg',none:'Not EPA-rated (heavy-duty, over 8,500 lb GVWR)'};
+ const MK={'MERCEDES-BENZ':'Mercedes-Benz','LAND ROVER':'Land Rover','RAM':'Ram','GMC':'GMC','BMW':'BMW'};const mk=MK[(v.raw.Make||'').toUpperCase()]||V.make;
+ const norm=s=>(s||'').toLowerCase().replace(/[^a-z0-9]/g,''),toks=s=>new Set((s||'').split(/[\s\/,]+/).map(norm).filter(t=>t.length>=2));
+ const key=toks([v.raw.Model,v.raw.Trim,v.raw.Series].join(' '));const base=norm((v.raw.Model||'').split(' ')[0].replace('-Class',''));
+ const ms=items(await feJ(`vehicle/menu/model?year=${y}&make=${encodeURIComponent(mk)}`)).map(m=>({t:m.text,s:[...toks(m.text)].filter(x=>key.has(x)).length+(base&&norm(m.text).includes(base)?2:0)})).filter(m=>m.s>0).sort((a,b)=>b.s-a.s).slice(0,3);
+ const disp=+v.raw.DisplacementL||null,cyl=+v.raw.EngineCylinders||null,want4=/4WD|AWD|4X4|ALL/i.test(v.raw.DriveType||''),dsl=/diesel/i.test(v.raw.FuelTypePrimary||''),turbo=v.raw.Turbo=='Yes';let best=null;
+ for(const m of ms){for(const o of items(await feJ(`vehicle/menu/options?year=${y}&make=${encodeURIComponent(mk)}&model=${encodeURIComponent(m.t)}`))){const d=await feJ('vehicle/'+o.value);if(!d)continue;
+  const is4=/4-wheel|all-wheel|4wd|awd/i.test(d.drive||'');const pen=(turbo==!!(d.tCharger||d.sCharger)?0:1.5)+(disp?Math.abs((+d.displ||0)-disp)*5:1)+(cyl&&+d.cylinders!=cyl?3:0)+(is4==want4?0:2)+(dsl==/diesel/i.test(d.fuelType||'')?0:4)-m.s*.5;
+  if(!best||pen<best.pen)best={pen,d,m:m.t,o:o.text};}}
+ if(best&&best.pen<2.5)return {kind:'mpg',city:+best.d.city08,hwy:+best.d.highway08,comb:+best.d.comb08,label:`${y} ${mk} ${best.m} (${best.o})`,url:`https://www.fueleconomy.gov/feg/noframes/${best.d.id}.shtml`};
+ return {kind:'mpg',none:'No confident EPA match on fueleconomy.gov'};}
+function batteryEst(epa,miles,age,perf){if(!epa||!epa.range||miles==null)return null;const p={A:7,tau:25000,B:.035,C:.8};
+ const s=Math.round(Math.max(70,100-p.A*(1-Math.exp(-miles/p.tau))-p.B*miles/1000-p.C*age-(perf?2:0))*10)/10;const est=Math.round(epa.range*s/100);const band=s>85?'green':(s>=80?'orange':'red');
+ return {health:s,est_range:est,loss:epa.range-est,band,band_label:{green:'Excellent',orange:'Good',red:'OK'}[band],chem:'NCA/NMC (assumed)',notes:['Instant browser estimate (same model as the inventory app).']};}
+let INV=null;
+async function invCar(vin){try{if(!INV)INV=await getJSON('data.json?v='+Math.floor(Date.now()/600000),{});}catch(e){INV=[];}return (INV||[]).find(c=>c.vin==vin)||null;}
+function fromInventory(c,miles){const o={lux:{stock:c.stock,price:c.price,color:c.color,interior:c.interior,sold:c.sold,url:c.url,img:c.img,miles:c.miles}};
+ if(c.pricing&&c.pricing.status)o.pricing=c.pricing,o.comps=c.comps||[],o.demand=c.demand||null;
+ if(c.mmr)o.mmr={adjusted:c.mmr.mmr,is_adjusted:c.mmr.adjusted,base:c.mmr.base,odometer_adj:(c.mmr.base!=null&&c.mmr.mmr!=null)?c.mmr.mmr-c.mmr.base:null,low:c.mmr.low,high:c.mmr.high,avg_odometer:c.mmr.avg_odometer,est_retail:c.mmr.est_retail,transactions:c.mmr.transactions,miles_used:c.miles,date:c.mmr.date,source:c.mmr.src,notes:c.mmr.notes};
+ if(c.carfax)o.carfax=Object.assign({},c.carfax,{carfax_value:c.carfax.value,report_url:c.carfax.report_url,pdf:c.carfax.pdf||null});
+ if(c.type=='TESLA'&&c.epa)o.epa={kind:'ev',range:c.epa,label:c.epa_label,url:c.fe_url},o.battery={health:c.health,est_range:c.cur_range,loss:c.cur_loss,band:c.band,band_label:c.band_label,chem:c.chem,notes:[c.health_src=='Actual'?'ACTUAL health entered by staff.':'Estimated (inventory app model).']};
+ if(c.type!='TESLA'&&c.mpg)o.epa={kind:'mpg',city:c.mpg.city,hwy:c.mpg.hwy,comb:c.mpg.comb,label:c.mpg.label,url:c.mpg.url};
+ return o;}
+function clientBid(R){const C=BIDCFG,rd=x=>Math.floor(x/C.round_down_to)*C.round_down_to;const m=R.mmr&&R.mmr.adjusted,p=R.pricing||{},s=p.status=='OK'?p.suggested:null;const lines=[];let cap=null;
+ if(s){const tg=Math.max(C.min_gross,C.gross_pct*s);cap=s-C.recon_fees-tg;lines.push({label:'Suggested retail (comps)',v:s},{label:'− Recon + auction/transport fees',v:-C.recon_fees},{label:`− Target gross (max $${C.min_gross.toLocaleString()} or ${C.gross_pct*100}% of retail)`,v:-Math.round(tg)},{label:'= Retail-based ceiling',v:Math.round(cap),strong:true});}
+ if(m)lines.push({label:'Adjusted MMR (Manheim, at these miles)',v:m,strong:true});
+ let mb,basis,why;if(m&&cap!=null){mb=rd(Math.min(m,cap));basis=m<=cap?'MMR':'Retail';why='lower of adjusted MMR and retail ceiling';}else if(m){mb=rd(m);basis=(R.status||{}).comps=='pending'?'Comps pending':'MMR only';why='adjusted MMR';}
+ else if(cap!=null){mb=rd(cap);basis='MMR pending';why='retail ceiling; MMR not available yet';}else return {max_bid:null,basis:'Pending',lines,why:'Needs comparable retail listings or MMR'};
+ lines.push({label:`Suggested max bid (${why}, rounded down to $${C.round_down_to})`,v:mb,strong:true,final:true});const exp=s?s-C.recon_fees-mb:null;
+ return {max_bid:mb>0?mb:null,basis,why,lines,expected_gross:exp,expected_gross_pct:exp!=null?Math.round(exp/s*1000)/10:null,mmr:m,retail:s,vs_mmr:m?mb-m:null};}
+
+// ---------- report ----------
+let CUR=null; // {vin, miles, requested, local:{}, server:null, t0, timer}
+function merged(){const L=CUR.local,S=CUR.server;const R={vin:CUR.vin,status:{}};
+ for(const k of ['vehicle','recalls','epa','battery','pricing','comps','demand','mmr','carfax','lux','miles','miles_assumed','check_digit_ok','tesla','requested_at','updated_at','comps_searched'])R[k]=(S&&S[k]!=null)?S[k]:L[k];
+ const ss=(S&&S.status)||{},SK={decode:'vehicle',comps:'pricing'};
+ for(const k of ['decode','recalls','epa','comps','mmr','carfax']){const f=SK[k]||k;
+  R.status[k]=(S&&S[f]!=null)?((ss[k]&&ss[k]!='pending')?ss[k]:'ok'):(L[f]!=null?'local':((S&&ss[k]=='pending')||CUR.requested||(L.loading&&['decode','recalls','epa'].includes(k))?'pending':'notreq'));}
+ R.src={};for(const k of ['vehicle','recalls','epa','pricing','mmr','carfax'])R.src[k]=(S&&S[k]!=null)?'server':(L[k]!=null?(L.inv&&L.inv[k]!=null?'inventory':'browser'):null);
+ R.bid=clientBid(R);return R;}
+function pend(k,R){const st=R.status[k];
+ if(st=='notreq')return `<div class="pendbox">Not requested — the auction service is not connected yet, so this part can't be looked up from here.</div>`;
+ const since=CUR.reqAt?Math.round((Date.now()-CUR.reqAt)/60000):null;
+ return `<div class="pendbox">⏳ Pending — usually ${WAIT[k]} after the request${since!=null?` (requested ${since<1?'just now':since+' min ago'})`:''}. This section fills in automatically.</div>`;}
+function stag(R,k,sk){const st=R.status[sk||k],src=R.src[k];if(st=='pending')return '<span class="tag pend">Pending</span>';if(st=='notreq')return '<span class="tag none">Not requested</span>';if(st=='none'||st=='failed')return '<span class="tag none">Unavailable</span>';
+ if(src=='inventory')return '<span class="tag local">From Lux inventory</span>';if(src=='browser')return '<span class="tag local">Instant</span>';return '<span class="tag ok">✓</span>';}
+function secVehicle(R){const V=R.vehicle;if(!V)return `<div class="card"><h3>Vehicle ${stag(R,'vehicle','decode')}</h3>${pend('decode',R)}</div>`;
+ const lux=R.lux;return `<div class="card"><h3>Vehicle ${stag(R,'vehicle','decode')}</h3><h2 style="font-size:18px;margin-bottom:4px">${esc([V.year,V.make,V.model].filter(Boolean).join(' '))} <span class="sub" style="font-size:14px">${esc(V.trim||'')}</span></h2>
+ <div class="kv"><b>VIN</b><span class="mono">${esc(R.vin)}${R.check_digit_ok===false?' <span class="tag pend">check digit ✗</span>':''}</span><b>Miles</b><span>${R.miles!=null?fmt(R.miles)+(R.miles_assumed?' <span class="tag pend">assumed (not entered)</span>':''):'Not entered'}</span>
+ <b>Engine</b><span>${esc(V.engine||'—')}</span><b>Drivetrain</b><span>${esc(V.drivetrain||V.drive||'—')}</span><b>Fuel</b><span>${esc(V.fuel||'—')}</span>${V.transmission?`<b>Trans.</b><span>${esc(V.transmission)}</span>`:''}${V.body?`<b>Body</b><span>${esc(V.body)}</span>`:''}${V.plant?`<b>Built</b><span>${esc(V.plant)}</span>`:''}
+ ${V.autopilot_hw?`<b>Autopilot HW</b><span>${esc(V.autopilot_hw)} <span class="sub">(estimate)</span></span>`:''}</div>
+ ${V.decode_ok===false&&V.decode_msg?`<div class="note">⚠ NHTSA decode note: ${esc(V.decode_msg)}</div>`:''}
+ ${lux?`<div class="banner on info" style="margin:8px 0 0">This VIN is in Lux inventory: stock <b>${esc(lux.stock)}</b>${lux.price?' · listed '+usd(lux.price):''}${lux.sold?' · SOLD':''}${lux.miles!=null?' · '+fmt(lux.miles)+' mi on the website':''}. <a href="${esc(lux.url)}" target="_blank" rel="noopener">Listing ↗</a></div>`:''}</div>`;}
+function secBid(R){const b=R.bid||{};const pending=b.max_bid==null;
+ return `<div class="bidbox"><div class="k">Suggested max bid</div><div class="v">${pending?'Pending':usd(b.max_bid)}</div>
+ <span class="basis ${/pending/i.test(b.basis||'')||pending?'p':''}">${esc(pending?'Waiting for comps / MMR':(b.basis=='MMR'?'Anchored on MMR':b.basis=='Retail'?'Capped by retail margin':b.basis))}</span>
+ ${b.lines&&b.lines.length?`<table class="math">${b.lines.map(l=>`<tr class="${l.final?'f s':(l.strong?'s':'')}"><td>${esc(l.label)}</td><td class="n">${usd(l.v)}</td></tr>`).join('')}</table>`:''}
+ ${b.max_bid&&b.expected_gross!=null?`<div class="gross">Expected gross at the max bid: <b style="color:#fff">${usd(b.expected_gross)}</b> (${b.expected_gross_pct}% of retail) after ${usd(BIDCFG.recon_fees)} recon/fees.</div>`:''}
+ ${b.max_bid&&b.vs_mmr!=null?`<div class="gross">Max bid vs adjusted MMR: ${b.vs_mmr<0?'−':'+'}${usd(Math.abs(b.vs_mmr))}</div>`:''}
+ ${pending?`<div class="gross">${R.status.comps=='notreq'&&R.status.mmr=='notreq'?'Needs comparable retail listings or MMR — the auction service is not connected yet.':`Fills in once comparable retail listings (${WAIT.comps}) or MMR (${WAIT.mmr}) arrive.`}</div>`:''}</div>`;}
+function secRecalls(R){const r=R.recalls;return `<div class="card"><h3>Recalls ${stag(R,'recalls')}${r?` <span class="tag">${r.items.length}</span>`:''}</h3>${!r?pend('recalls',R):
+ (r.items.length?`<details${r.items.length<=3?' open':''}><summary>${r.items.length} recall campaign${r.items.length>1?'s':''} for this model/year</summary>${r.items.map(x=>`<div class="recall"><b>${esc(x.component)}</b> <span class="sub">${esc(x.id)} · ${esc(x.date)}</span><div>${esc(x.summary)}</div></div>`).join('')}</details>`:'<div>No recall campaigns for this model/year.</div>')+
+ `<div class="note">${esc(r.scope)} · <a href="${esc(r.url)}" target="_blank" rel="noopener">Check open recalls for this VIN on NHTSA ↗</a></div>`}</div>`;}
+function secEpa(R){const e=R.epa,b=R.battery;if(!e)return `<div class="card"><h3>${R.tesla?'EPA range & battery':'EPA fuel economy'} ${stag(R,'epa')}</h3>${pend('epa',R)}</div>`;
+ if(e.kind=='ev'){return `<div class="card"><h3>EPA range & battery ${stag(R,'epa')}</h3>${e.none?`<div>${esc(e.none)}</div>`:`<div class="grid2"><div class="stat"><div class="t">Original EPA range</div><div class="v">${fmt(e.range)} mi</div></div>
+  ${b?`<div class="stat"><div class="t">Battery health (est.)</div><div class="v"><span class="pill ${b.band}">${b.health}% · ${esc(b.band_label)}</span></div></div><div class="stat"><div class="t">Est. range now</div><div class="v">${fmt(b.est_range)} mi</div></div><div class="stat"><div class="t">Range lost</div><div class="v">−${fmt(b.loss)} mi</div></div>`:''}</div>
+  <div class="note">${e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.label)}</a>`:esc(e.label||'')}${b&&b.miles_assumed?' · miles assumed — enter miles for a better estimate':''}${b&&b.notes&&b.notes.length?' · '+b.notes.map(esc).join(' · '):''}</div>`}</div>`;}
+ return `<div class="card"><h3>EPA fuel economy ${stag(R,'epa')}</h3>${e.none?`<div>${esc(e.none)}</div>`:`<div class="grid2" style="grid-template-columns:repeat(3,1fr)"><div class="stat"><div class="t">City</div><div class="v">${e.city}</div></div><div class="stat"><div class="t">Hwy</div><div class="v">${e.hwy}</div></div><div class="stat"><div class="t">Comb.</div><div class="v">${e.comb} <span class="sub">mpg</span></div></div></div><div class="note"><a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.label)} ↗</a></div>`}</div>`;}
+function COMPCARDS(R,cs,miles){return cs.map(x=>`<div class="comp"><a class="ph" href="${esc(x.url)}" target="_blank" rel="noopener">${x.img?`<img loading="lazy" referrerpolicy="no-referrer" src="${esc(x.img)}" alt="" onerror="this.outerHTML='<div class=noimg>Photo unavailable — open listing ↗</div>'">`:'<div class="noimg">No photo — open listing ↗</div>'}</a>
+  <div class="cb">${x.best_match?'<span class="bm">★ Best match</span>':''}<div class="cp">${usd(x.price)}</div><div class="ct"><b>${esc(x.year)} ${esc(x.make&&!R.tesla?x.make+' ':'')}${esc(x.model)} ${esc(x.trim||'')}</b></div>
+  <div>${fmt(x.miles)} mi${miles!=null?` <span class="sub">(${x.miles>=miles?'+':'−'}${fmt(Math.abs(x.miles-miles))})</span>`:''}</div>
+  <div class="dist">${x.dist_mi!=null?`📍 ${fmt(x.dist_mi)} mi from Lux`:'Distance unknown'}</div><div class="sub">${esc(x.location||'')}${x.dealer?' · '+esc(x.dealer):''}</div>
+  ${x.adj!=null?`<div class="adj">Adj. to ${fmt(miles)} mi: ${usd(x.adj)}</div>`:''}<div class="src">${esc(x.source||'')} · seen ${esc(x.seen||'')}${x.days_on_site!=null?' · '+x.days_on_site+' d listed':''}</div></div></div>`).join('');}
+function secMarket(R){const p=R.pricing,cs=R.comps||[];if(!p)return `<div class="card"><h3>Suggested retail ${stag(R,'pricing','comps')}</h3>${pend('comps',R)}</div>`;
+ const miles=R.miles;const d=R.demand;
+
+ return `<div class="card"><h3>Suggested retail ${stag(R,'pricing','comps')}</h3>
+ ${p.status=='OK'?`<div class="grid2"><div class="stat"><div class="t">Suggested retail</div><div class="v">${usd(p.suggested)}</div><div class="sub">Range ${usd(p.low)} – ${usd(p.high)}</div></div><div class="stat"><div class="t">Confidence</div><div class="v" style="font-size:17px">${esc(p.confidence)}</div><div class="sub">${p.n} comps within ${p.radius_mi||500} mi · ${esc(p.tier||'')}${p.n<5?' · <b style="color:#b45309">Few comps within '+(p.radius_mi||500)+' mi</b>':''}</div></div>
+  ${d&&d.label?`<div class="stat"><div class="t">Demand</div><div class="v" style="font-size:17px"><span class="pill ${d.color||'grey'}">${esc(d.label)}</span></div><div class="sub">${d.inputs&&d.inputs.median_days!=null?'median '+d.inputs.median_days+' d on market':''}</div></div>`:''}
+  ${p.slope_per_mile?`<div class="stat"><div class="t">Mileage effect</div><div class="v" style="font-size:17px">${usd(Math.abs(p.slope_per_mile)*1000)}/1k mi</div></div>`:''}</div>`
+  :`<div class="stat"><div class="t">Suggested retail</div><div class="v">Insufficient data</div><div class="sub"><b>Few comps within ${p.radius_mi||500} mi</b>: only ${p.n||0} comparable listing${p.n==1?'':'s'} matched within ${p.radius_mi||500} mi of Lux — no retail price is suggested without real comps, and the search isn't widened.</div></div>`}
+ ${R.src.pricing=='inventory'&&R.lux&&miles!=null&&Math.abs((R.lux.miles||0)-miles)>2000?`<div class="note">⚠ Priced at the website's ${fmt(R.lux.miles)} mi (you entered ${fmt(miles)}). The fresh auction comps will reprice it.</div>`:''}
+ ${p.notes&&p.notes.length?`<ul class="note" style="padding-left:18px;margin:6px 0">${p.notes.map(n=>`<li>${esc(n)}</li>`).join('')}</ul>`:''}
+ </div>`;}
+function secComps(R){const p=R.pricing,cs=R.comps||[],miles=R.miles;if(!p)return `<div class="card"><h3>Comparable retail listings ${stag(R,'pricing','comps')}</h3>${pend('comps',R)}</div>`;
+ const cards=COMPCARDS(R,cs,miles);
+ return `<div class="card"><h3>Comparable retail listings ${stag(R,'pricing','comps')}${cs.length?` <span class="tag">${cs.length}</span>`:''}</h3>${cs.length?`<div class="sub" style="margin-bottom:4px">Used for the suggested retail · all within ${p.radius_mi||500} mi of Lux · best match first · tap a photo to open the listing</div><div class="compgrid">${cards}</div>`:`<div class="sub">No matching listings within ${p.radius_mi||500} mi.</div>`}</div>`;}
+function secMMR(R){const m=R.mmr;if(!m)return `<div class="card"><h3>Manheim MMR ${stag(R,'mmr')}</h3>${pend('mmr',R)}</div>`;
+ if(m.unavailable)return `<div class="card"><h3>Manheim MMR ${stag(R,'mmr')}</h3><div>MMR unavailable: ${esc(m.unavailable)}</div></div>`;
+ return `<div class="card"><h3>Manheim MMR ${stag(R,'mmr')}</h3><div class="grid2"><div class="stat"><div class="t">Adjusted MMR</div><div class="v">${usd(m.adjusted)}</div><div class="sub">${m.miles_used!=null?'at '+fmt(m.miles_used)+' mi':''}</div></div>
+ <div class="stat"><div class="t">Typical range</div><div class="v" style="font-size:16px">${usd(m.low)} – ${usd(m.high)}</div></div><div class="stat"><div class="t">Base MMR</div><div class="v" style="font-size:17px">${usd(m.base)}</div><div class="sub">${m.avg_odometer?'avg odometer '+fmt(m.avg_odometer)+' mi':''}</div></div>
+ <div class="stat"><div class="t">Mileage adjustment</div><div class="v" style="font-size:17px">${m.odometer_adj!=null?(m.odometer_adj>=0?'+':'−')+usd(Math.abs(m.odometer_adj)):'—'}</div></div></div>
+ <div class="note">${esc(m.source||'Manheim')}${m.date?' · '+esc(m.date):''}${m.transactions!=null?' · '+esc(m.transactions)+' transactions':''}${m.est_retail?' · Manheim est. retail '+usd(m.est_retail):''}${m.notes?' · '+esc(m.notes):''}</div></div>`;}
+function secCarfax(R){const c=R.carfax;if(!c)return `<div class="card"><h3>CARFAX ${stag(R,'carfax')}</h3>${pend('carfax',R)}</div>`;
+ if(c.unavailable)return `<div class="card"><h3>CARFAX ${stag(R,'carfax')}</h3><div>CARFAX unavailable: ${esc(c.unavailable)}</div></div>`;
+ const tags=(c.tags||[]).map(([l,col])=>`<span class="pill ${col}">${esc(l)}</span>`).join('');const acc=c.accidents||[];
+ return `<div class="card"><h3>CARFAX ${stag(R,'carfax')}</h3><div class="cfx">${tags}</div>
+ ${acc.length?`<details><summary>${acc.length} accident/damage report${acc.length>1?'s':''}</summary>${acc.map(a=>`<div class="recall"><b>${esc(a.severity||'Severity not stated')}</b> <span class="sub">${esc(a.date||'')}</span><div>${esc(a.description||'')}</div></div>`).join('')}</details>`:''}
+ <div class="kv" style="margin-top:6px">${c.owners!=null?`<b>Owners</b><span>${esc(c.owners)}</span>`:''}${c.last_odometer?`<b>Last odometer</b><span>${fmt(c.last_odometer)} mi ${esc(c.last_odometer_date||'')}</span>`:''}${c.carfax_value?`<b>CARFAX value</b><span>${usd(c.carfax_value)}</span>`:''}${c.use_type||c.use?`<b>Use</b><span>${esc(c.use_type||c.use)}</span>`:''}</div>
+ <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">${c.pdf?`<a class="btn sm" href="${esc(c.pdf)}" target="_blank" rel="noopener">📄 Full CARFAX PDF</a>`:''}${c.report_url?`<a class="btn sm" href="${esc(c.report_url)}" target="_blank" rel="noopener">CARFAX online ↗</a>`:''}</div>
+ <div class="note">${c.pulled?'Pulled '+esc(c.pulled):''}${c.note?' · '+esc(c.note):''}</div></div>`;}
+// ---------- auto-update notices: per-section toasts, "Report ready" (banner + chime + vibrate + title), Web Push opt-in ----------
+const VAPID_PUB='BJtZ_fQjyrP6ZTK8SEx9waAA-HZLLebY7yJWD8aw6GJo_IEmVEUaJYsi4wxkvTfe55qZySXz-PA5OaoWklGjWvw';
+const RELAY_BASE=RELAY.replace(/\/auction$/,'');
+const BASE_TITLE=document.title;
+let AUDIO=null;
+['pointerdown','touchend','keydown'].forEach(ev=>document.addEventListener(ev,()=>{try{if(!AUDIO){const A=window.AudioContext||window.webkitAudioContext;if(A)AUDIO=new A();}if(AUDIO&&AUDIO.state=='suspended')AUDIO.resume();}catch(e){}},{passive:true}));
+function chime(){try{if(!AUDIO)return;const t=AUDIO.currentTime;[[880,0],[1175,.16],[1568,.32]].forEach(([f,d])=>{const o=AUDIO.createOscillator(),g=AUDIO.createGain();o.type='sine';o.frequency.value=f;
+ g.gain.setValueAtTime(0.0001,t+d);g.gain.exponentialRampToValueAtTime(0.25,t+d+.02);g.gain.exponentialRampToValueAtTime(0.0001,t+d+.35);o.connect(g).connect(AUDIO.destination);o.start(t+d);o.stop(t+d+.4);});}catch(e){}}
+function buzz(p){try{if(navigator.vibrate)navigator.vibrate(p);}catch(e){}}
+function toast(html,o){o=o||{};const t=document.createElement('div');t.className='toast'+(o.big?' big':'');t.innerHTML=html;t.onclick=()=>t.remove();$('#toasts').appendChild(t);
+ requestAnimationFrame(()=>t.classList.add('on'));setTimeout(()=>{t.classList.remove('on');setTimeout(()=>t.remove(),300);},o.ms||6000);}
+function vTitle(R){const V=(R&&R.vehicle)||{};return [V.year,V.make,V.model].filter(Boolean).join(' ')||(R&&R.vin)||'';}
+const SECT={comps:'Comparable retail',mmr:'MMR',carfax:'CARFAX'};
+function sectionNews(k,R){const st=(R.status||{})[k];
+ if(k=='mmr'){const m=R.mmr||{};return st=='ok'?`MMR arrived: ${usd(m.adjusted??m.base)}${m.adjusted!=null?' (adjusted)':''}`:'MMR: not available for this vehicle';}
+ if(k=='carfax'){const c=R.carfax||{};return st=='ok'?`CARFAX arrived${c.owners!=null?' · '+c.owners+' owner'+(c.owners==1?'':'s'):''}${Array.isArray(c.accidents)?' · '+(c.accidents.length?c.accidents.length+' accident/damage report'+(c.accidents.length>1?'s':''):'no accidents'):''}`:'CARFAX: not available for this VIN';}
+ const p=R.pricing||{};return st=='ok'?`Comparable retail arrived: ${usd(p.suggested)}`:'Comparable retail: few comps within 500 mi';}
+const FINAL=k=>!!k&&k!='pending';
+function checkNews(){if(!CUR||!CUR.server)return;const S=CUR.server,st=S.status||{};CUR.seen=CUR.seen||{};
+ for(const k of ['comps','mmr','carfax']){const was=CUR.seen[k],now=st[k];
+  if(now=='pending')CUR.everPending=true;
+  if(was=='pending'&&FINAL(now)&&k!='comps'){toast(esc(sectionNews(k,S))+'<span class="ts">'+esc(vTitle(S))+' · tap to dismiss</span>');buzz(80);}
+  CUR.seen[k]=now;}
+ const done=['comps','mmr','carfax'].every(k=>FINAL(st[k]))&&!(S.pending||[]).length;
+ if(done&&CUR.everPending&&!CUR.readyShown){CUR.readyShown=true;reportReady(S);}
+ return done;}
+function reportReady(S){const b=S.bid||{},m=S.mmr||{},t=vTitle(S);
+ const line=[b.max_bid!=null?'Max bid '+usd(b.max_bid):null,(m.adjusted??m.base)!=null?'MMR '+usd(m.adjusted??m.base):null].filter(Boolean).join(' · ');
+ banner('ready','✅ Report ready — '+esc(t)+(line?'<div class="sub">'+esc(line)+' · MMR, CARFAX and comps are in</div>':''));
+ toast('✅ Report ready'+(line?'<span class="ts">'+esc(t)+' · '+esc(line)+'</span>':''),{big:true,ms:9000});
+ chime();buzz([120,60,120,60,240]);document.title='✓ Ready — '+t+' · Lux Auction';
+ // app in the background but still running (Android): local notification; the server push uses the same tag, so no duplicates
+ if(document.hidden&&'Notification' in window&&Notification.permission=='granted'&&navigator.serviceWorker)navigator.serviceWorker.ready.then(r=>r.showNotification('Auction report ready — '+t,{body:line,tag:'auction-'+S.vin,icon:'icons/icon-192.png',data:{url:'auction.html#vin='+S.vin}})).catch(()=>{});}
+// Web Push opt-in (Android Chrome/Samsung; iPhone only inside the installed Lux app, iOS 16.4+)
+const IS_IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform=='MacIntel'&&navigator.maxTouchPoints>1);
+const STANDALONE=()=>(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
+const PUSH_OK=()=>'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window;
+let SWREG=null;if('serviceWorker' in navigator)navigator.serviceWorker.ready.then(r=>{SWREG=r;}).catch(()=>{});
+const pushKey=v=>'luxPush:'+v;
+function pushOn(v){try{const t=+localStorage.getItem(pushKey(v));return t&&Date.now()-t<20*3600e3&&'Notification' in window&&Notification.permission=='granted';}catch(e){return false;}}
+function notifyBar(R){const SP=(CUR&&CUR.server&&CUR.server.status)||{};const pend=['comps','mmr','carfax'].some(k=>(R.status||{})[k]=='pending'||SP[k]=='pending')||(CUR&&CUR.requested&&!CUR.server);if(!pend||(CUR&&CUR.readyShown))return '';
+ if(pushOn(R.vin))return `<div class="notifybar"><span class="on">🔔 You’ll get a notification when this report is ready.</span><span class="hint">This page also updates by itself while it’s open.</span></div>`;
+ if(!PUSH_OK()){if(IS_IOS&&!STANDALONE())return `<div class="notifybar"><span>🔔 Want a notification when it’s ready?</span><span class="hint">On iPhone, notifications only work in the installed app: Safari → Share → <b>Add to Home Screen</b>, open <b>Lux</b> from the home screen, then tap “Notify me”. This page also updates by itself while it’s open.</span></div>`;
+  return `<div class="notifybar"><span class="hint">This page updates by itself while it’s open (this browser can’t show notifications).</span></div>`;}
+ if(Notification.permission=='denied')return `<div class="notifybar"><span>🔕 Notifications are blocked for Lux.</span><span class="hint">${IS_IOS?'iPhone Settings → Notifications → Lux → Allow Notifications':'Site settings (lock icon / ⋮ → Site settings) → Notifications → Allow'}, then tap ↻. This page also updates by itself while it’s open.</span></div>`;
+ return `<div class="notifybar"><button class="btn" id="notifyBtn" type="button">🔔 Notify me when ready</button><span class="hint" id="notifyMsg">Get a phone notification when MMR, CARFAX and comps are in — even if the app is closed or the phone is locked.</span></div>`;}
+function b64uBytes(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';const r=atob(s),a=new Uint8Array(r.length);for(let i=0;i<r.length;i++)a[i]=r.charCodeAt(i);return a;}
+async function enablePush(vin){const msg=$('#notifyMsg'),bt=$('#notifyBtn');if(bt)bt.disabled=true;if(msg)msg.textContent='Asking for permission…';
+ try{const perm=Notification.permission=='granted'?'granted':await Notification.requestPermission();   // must run from the tap (user gesture)
+  if(perm!='granted'){if(msg)msg.textContent=perm=='denied'?'Notifications were blocked — allow them in Settings to use this.':'No permission given.';if(bt)bt.disabled=false;return;}
+  const reg=SWREG||await navigator.serviceWorker.ready;
+  let sub=await reg.pushManager.getSubscription();
+  if(sub&&sub.options&&sub.options.applicationServerKey){const k=new Uint8Array(sub.options.applicationServerKey),w=b64uBytes(VAPID_PUB);if(k.length!=w.length||k.some((x,i)=>x!=w[i])){await sub.unsubscribe();sub=null;}}
+  if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64uBytes(VAPID_PUB)});
+  const r=await fetch(RELAY_BASE+'/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({vin,subscription:sub.toJSON()})});
+  if(!r.ok)throw new Error((await r.text()).slice(0,120)||('HTTP '+r.status));
+  localStorage.setItem(pushKey(vin),String(Date.now()));toast('🔔 Notifications on for this VIN',{ms:3500});render();}
+ catch(e){if(msg)msg.textContent='Could not turn on notifications ('+(e.message||e)+'). This page still updates by itself.';if(bt)bt.disabled=false;}}
+document.addEventListener('click',e=>{if(e.target.closest('#notifyBtn')&&CUR)enablePush(CUR.vin);});
+if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.type=='auction-ready'&&CUR&&(!e.data.vin||e.data.vin==CUR.vin))pollNow();});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)pollNow();});
+window.addEventListener('focus',()=>pollNow());window.addEventListener('pageshow',e=>{if(e.persisted)pollNow();});
+function pollNow(){if(CUR&&CUR.tick&&CUR.polling&&!CUR.inTick){clearTimeout(CUR.timer);CUR.tick();}}
+function render(){if(!CUR)return;const R=merged();
+ const openD=[...document.querySelectorAll('#reportView details')].map((d,i)=>d.open?i:-1).filter(i=>i>=0);
+ $('#reportView').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px"><button class="btn sm" id="backBtn" type="button">← Scan another</button>
+ <span class="sub" id="pollInfo">${CUR.polling?'Auto-updating — sections fill in by themselves':''}${R.updated_at?' · server update '+new Date(R.updated_at).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}):''}</span></div>
+ ${notifyBar(R)}${secVehicle(R)}${secBid(R)}${secMarket(R)}${secMMR(R)}${secCarfax(R)}${secEpa(R)}${secRecalls(R)}${secComps(R)}
+ <div class="sub" style="text-align:center;margin-top:8px"><button class="btn sm" id="rerunBtn" type="button">↻ Request a fresh report for this VIN</button></div>`;
+ $('#backBtn').onclick=()=>{location.hash='';};$('#rerunBtn').onclick=()=>submit(CUR.vin,R.miles_assumed?null:R.miles,true);
+ const ds=document.querySelectorAll('#reportView details');openD.forEach(i=>{if(ds[i])ds[i].open=true;});}
+async function instant(vin,miles){const L=CUR.local;L.loading=true;render();
+ const inv=invCar(vin).then(c=>{if(!c||CUR.vin!=vin)return;const o=fromInventory(c,miles);L.inv=o;for(const k in o)if(L[k]==null)L[k]=o[k];if(L.miles==null&&!CUR.server){L.miles=c.miles;L.miles_assumed=false;}render();}).catch(()=>{});
+ try{const v=await vpic(vin);if(CUR.vin!=vin)return;L.vehicle=v.vehicle;L.tesla=v.tesla;L.check_digit_ok=checkDigit(vin);
+  if(L.miles==null&&v.vehicle.age){L.miles=Math.round(v.vehicle.age*BIDCFG.typical_mi_yr/100)*100;L.miles_assumed=true;}render();
+  await Promise.all([recallsFor(v,vin).then(r=>{L.recalls=r;render();}).catch(()=>{}),
+   inv.then(()=>L.epa?null:epaFor(v).then(e=>{if(!e||L.epa)return;L.epa=e;if(v.tesla){const tu=(v.vehicle.trim||'').toUpperCase();L.battery=batteryEst(e,L.miles,v.vehicle.age,/PERFORMANCE|PLAID/.test(tu)&&!/LONG RANGE/.test(tu));if(L.battery)L.battery.miles_assumed=L.miles_assumed;}render();})).catch(()=>{})]);
+ }catch(e){}L.loading=false;render();}
+// keeps polling while the page is open until every section is final: every 15 s for the first 30 min, then every 60 s
+// (iOS pauses timers in the background: visibilitychange / focus / a push message trigger an immediate check on return)
+async function poll(vin){const t0=Date.now();CUR.polling=true;const cur=CUR;
+ const tick=cur.tick=async()=>{if(CUR!==cur||cur.inTick)return;cur.inTick=true;clearTimeout(cur.timer);let done=false;
+  try{const j=await getJSON(nocache(`auctions/${vin}.json`));if(CUR!==cur)return;if(!cur.reqAt||new Date(j.requested_at).getTime()>=cur.reqAt-5*60000||!cur.requested){cur.server=j;}
+   done=checkNews()===true||!!(cur.server&&cur.server.pending&&!cur.server.pending.length);}catch(e){}
+  finally{cur.inTick=false;}
+  if(CUR!==cur)return;
+  if(done){cur.polling=false;render();return;}
+  render();cur.timer=setTimeout(tick,Date.now()-t0<POLL_MAX_MS?POLL_MS:60000);};tick();}
+function openReport(vin,miles,requested){if(CUR&&CUR.timer)clearTimeout(CUR.timer);document.title=BASE_TITLE;
+ CUR={vin,requested:!!requested,reqAt:requested?Date.now():null,local:{miles:miles??null,miles_assumed:false},server:null};
+ $('#formView').style.display='none';$('#reportView').style.display='';window.scrollTo(0,0);instant(vin,miles);poll(vin);}
+async function submit(vin,miles,rerun){noBanner();const go=$('#goBtn');go.disabled=true;
+ const hash=`#vin=${vin}${miles!=null?'&mi='+miles:''}`;history.replaceState(null,'',hash);
+ // Within 6 hours, reopen the saved report instead of running again (explicit ↻ rerun always refreshes).
+ if(!rerun){
+  try{const j=await getJSON(nocache(`auctions/${vin}.json`));
+   const ts=new Date(j.requested_at||j.updated_at).getTime(); const age=Date.now()-ts;
+   const milesMatch=miles==null||j.miles==null||+miles===+j.miles;
+   if(j&&Number.isFinite(age)&&age>=0&&age<6*3600*1000&&milesMatch){
+    const mins=Math.round(age/60000); const when=mins<2?'just now':mins<60?(mins+' min ago'):(Math.round(mins/60)+' hr ago');
+    go.disabled=false;banner('ok','Reopening the report from '+when+' (tap ↻ for a fresh one).');
+    openReport(vin,miles!=null?miles:(j.miles_assumed?null:j.miles),false);return;}
+  }catch(e){/* no saved report */}
+ }
+ let requested=false;
+ try{const r=await fetch(RELAY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({vin,miles,source:'auction'})});const t=(await r.text()).trim();
+  if(r.ok){requested=true;banner('ok','✓ Report requested. Decode, recalls and EPA show now; comps, MMR and CARFAX fill in automatically.');}
+  else if(r.status==503)banner('warn','<b>Auction lookups are not connected yet.</b> Showing the instant data only (decode, recalls, EPA, and anything already in the inventory app). Comparable listings, MMR and CARFAX need the auction routine to be connected.');
+  else banner('err',`Request not accepted: ${esc(t||('HTTP '+r.status))}`);
+ }catch(e){banner('err','Could not reach the auction service from this browser — showing the instant data only. Check the connection and tap ↻ Request again.');}
+ go.disabled=false;openReport(vin,miles,requested);}
+$('#goBtn').onclick=()=>{const v=validate();if(!v){$('#vinMsg').className='vmsg err';if(!$('#vinMsg').textContent)$('#vinMsg').textContent='Enter or scan a 17-character VIN.';$('#vin').focus();return;}
+ const m=$('#miles').value.replace(/[^0-9]/g,'');submit(v,m?+m:null);};
+$('#vin').addEventListener('keydown',e=>{if(e.key=='Enter')$('#miles').focus();});$('#miles').addEventListener('keydown',e=>{if(e.key=='Enter')$('#goBtn').click();});
+$('#newBtn').onclick=()=>{location.hash='';setTimeout(()=>$('#vin').focus(),50);};
+$('#reloadBtn').onclick=async()=>{try{const rg=navigator.serviceWorker&&await navigator.serviceWorker.getRegistration();if(rg)await rg.update();}catch(e){}const u=new URL(location.href);u.searchParams.set('v',Date.now());location.replace(u.toString());};
+function route(){const h=new URLSearchParams(location.hash.slice(1));const v=cleanVin(h.get('vin'));
+ if(v&&/^[A-HJ-NPR-Z0-9]{17}$/.test(v)){if(!CUR||CUR.vin!=v)openReport(v,h.get('mi')?+h.get('mi'):null,false);}
+ else{if(CUR&&CUR.timer)clearTimeout(CUR.timer);CUR=null;document.title=BASE_TITLE;noBanner();$('#reportView').style.display='none';$('#formView').style.display='';$('#vin').value='';$('#miles').value='';validate();loadRecent();}}
+window.addEventListener('hashchange',route);route();
+</script></body></html>
