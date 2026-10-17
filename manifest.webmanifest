@@ -1,0 +1,21 @@
+{
+  "id": "/lux-tesla-battery/",
+  "name": "Lux Automotive Internal Information Database",
+  "short_name": "Lux",
+  "description": "Lux Automotive internal inventory, pricing, CARFAX and auction tools.",
+  "start_url": "/lux-tesla-battery/",
+  "scope": "/lux-tesla-battery/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0c0c0c",
+  "theme_color": "#0c0c0c",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+    {"src": "icons/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any"}
+  ],
+  "shortcuts": [
+    {"name": "Auction", "short_name": "Auction", "url": "/lux-tesla-battery/auction.html", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]}
+  ]
+}
