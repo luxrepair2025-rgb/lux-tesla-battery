@@ -1,0 +1,11 @@
+{
+ "bid": {
+  "recon_fees": 1500,
+  "min_gross": 1500,
+  "gross_pct": 0.08,
+  "round_down_to": 100,
+  "typical_mi_yr": 13500,
+  "index_keep": 60,
+  "prefill_days": 3
+ }
+}

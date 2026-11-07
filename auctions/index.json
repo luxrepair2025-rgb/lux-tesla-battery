@@ -1,0 +1,53 @@
+{
+ "updated_at": "2026-10-10T14:58:36",
+ "items": [
+  {
+   "vin": "5NBAYP125NSMEP525",
+   "title": "5NBAYP125NSMEP525",
+   "miles": null,
+   "miles_assumed": false,
+   "requested_at": "2026-10-10T14:53:29",
+   "updated_at": "2026-10-10T14:55:29",
+   "max_bid": null,
+   "basis": "Pending",
+   "pending": [],
+   "lux_stock": null
+  },
+  {
+   "vin": "4S3BMHB68B3286050",
+   "title": "2011 Subaru Legacy Premium",
+   "miles": 212900,
+   "miles_assumed": true,
+   "requested_at": "2026-10-10T14:48:52",
+   "updated_at": "2026-10-10T14:51:06",
+   "max_bid": 800,
+   "basis": "MMR",
+   "pending": [],
+   "lux_stock": null
+  },
+  {
+   "vin": "5YJ3E1EA7SF067723",
+   "title": "2025 Tesla Model 3 Long Range RWD",
+   "miles": 6435,
+   "miles_assumed": false,
+   "requested_at": "2026-10-10T14:47:33",
+   "updated_at": "2026-10-10T14:58:36",
+   "max_bid": 35200,
+   "basis": "Retail",
+   "pending": [],
+   "lux_stock": "067723"
+  },
+  {
+   "vin": "5YJSA1E68MF438443",
+   "title": "2021 Tesla Model S Plaid AWD",
+   "miles": 89855,
+   "miles_assumed": false,
+   "requested_at": "2026-10-09T14:01:43",
+   "updated_at": "2026-10-09T17:19:40",
+   "max_bid": 39000,
+   "basis": "Retail",
+   "pending": [],
+   "lux_stock": "438443"
+  }
+ ]
+}
