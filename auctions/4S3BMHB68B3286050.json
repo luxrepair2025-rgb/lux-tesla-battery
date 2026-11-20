@@ -1,0 +1,536 @@
+{
+ "vin": "4S3BMHB68B3286050",
+ "requested_at": "2026-10-10T14:48:52",
+ "miles": 212900,
+ "miles_assumed": true,
+ "check_digit_ok": true,
+ "tesla": false,
+ "vehicle": {
+  "year": 2011,
+  "make": "Subaru",
+  "model": "Legacy",
+  "trim": "Premium",
+  "engine": "2.5 L 2.5NA C5",
+  "drivetrain": "AWD/All-Wheel Drive",
+  "drive": "AWD",
+  "fuel": "",
+  "electrification": null,
+  "body": "Sedan/Saloon",
+  "transmission": "Continuously Variable Transmission (CVT)",
+  "plant": "Lafayette, Indiana, United States (Usa)",
+  "gvwr": "Class 1: 6,000 lb or less (2,722 kg or less)",
+  "decode_ok": true,
+  "decode_msg": null,
+  "age": 15.77
+ },
+ "decode_raw": {
+  "Make": "SUBARU",
+  "Model": "Legacy",
+  "ModelYear": "2011",
+  "Trim": "Premium",
+  "Series": "",
+  "BodyClass": "Sedan/Saloon",
+  "DriveType": "AWD/All-Wheel Drive",
+  "EngineCylinders": "",
+  "DisplacementL": "2.5",
+  "EngineModel": "2.5NA C5",
+  "EngineHP": "",
+  "FuelTypePrimary": "",
+  "ElectrificationLevel": "",
+  "TransmissionStyle": "Continuously Variable Transmission (CVT)",
+  "TransmissionSpeeds": "",
+  "PlantCity": "LAFAYETTE",
+  "PlantState": "INDIANA",
+  "PlantCountry": "UNITED STATES (USA)",
+  "GVWR": "Class 1: 6,000 lb or less (2,722 kg or less)",
+  "Turbo": "No",
+  "Doors": "4",
+  "ErrorCode": "0",
+  "ErrorText": "0 - VIN decoded clean. Check Digit (9th position) is correct"
+ },
+ "status": {
+  "decode": "ok",
+  "recalls": "ok",
+  "epa": "ok",
+  "comps": "ok",
+  "mmr": "ok",
+  "carfax": "ok"
+ },
+ "lux": null,
+ "recalls": {
+  "scope": "model-level (all 2011 Subaru Legacy); check the VIN on nhtsa.gov for open status",
+  "url": "https://www.nhtsa.gov/recalls?vin=4S3BMHB68B3286050",
+  "items": [
+   {
+    "id": "18V626000",
+    "date": "2018-09-13",
+    "component": "Parking Brake",
+    "summary": "Subaru of America, Inc. (Subaru) is recalling certain 2010-2014 Subaru Legacy and Outback vehicles equipped with a manual transmission.  The electronic parking brake (EPB) may not engage as intended, allowing the vehicle to rollaway if the transmission is not in the proper gear when parked.",
+    "remedy": "Subaru will notify owners, and dealers will replace the EPB actuator assembly, free of charge.  The recall began July 19, 2019.  Owners may contact Subaru customer service at 1-844-373-6614.  Subaru's number for this recall is WTV-81."
+   },
+   {
+    "id": "19V009000",
+    "date": "2019-01-09",
+    "component": "Air Bags:Frontal:Passenger Side:Inflator Module",
+    "summary": "Subaru of America, Inc. (Subaru) is recalling certain 2010-2014 Tribeca, WRX, Legacy and Outback vehicles, 2010-2011 Impreza vehicles and 2010-2013 Forester vehicles sold, or ever registered, in the states of Alaska, Colorado, Connecticut, Idaho, Iowa, Maine, Massachusetts, Michigan, Minnesota, Montana, New Hampshire, New York, North Dakota, Oregon, Rhode Island, South Dakota, Utah, Vermont, Washington, Wisconsin, and Wyoming.\r\n\r\nThese vehicles are equipped with certain air bag inflators assembl",
+    "remedy": "Subaru is notifying owners, and dealers will replace the front passenger air bag inflator, free of charge.  The recall began on January 25, 2019.  Owners may contact Subaru customer service at 1-844-373-6614.  Subaru's number for this recall is TKC-19."
+   },
+   {
+    "id": "19V007000",
+    "date": "2019-01-09",
+    "component": "Air Bags:Frontal:Passenger Side:Inflator Module",
+    "summary": "Subaru of America, Inc. (Subaru) is recalling certain 2010-2013 Forester, 2010-2014 Tribeca, WRX, Outback, Legacy, and 2010-2011 Impreza vehicles sold, or ever registered, in the states of Alabama, California, Florida, Georgia, Hawaii, Louisiana, Mississippi, South Carolina, Texas, Puerto Rico, American Samoa, Guam, the Northern Mariana Islands (Saipan), and the U.S. Virgin Islands.\r\n\r\nThese vehicles are equipped with certain air bag inflators assembled as part of the passenger frontal air bag m",
+    "remedy": "Subaru has notified owners, and dealers will replace the front passenger air bag inflator, free of charge.  The recall began January 25, 2019.  Owners may contact Subaru customer service at 1-844-373-6614.  Subaru's number for this recall is TKA-19."
+   },
+   {
+    "id": "19V008000",
+    "date": "2019-01-09",
+    "component": "Air Bags:Frontal:Passenger Side:Inflator Module",
+    "summary": "Subaru of America, Inc. (Subaru) is recalling certain 2010-2014 Tribeca, WRX, Outback, and Legacy vehicles, 2010-2011 Impreza vehicles and 2010-2013 Forester vehicles sold, or ever registered, in the states of Arizona, Arkansas, Delaware, District of Columbia, Illinois, Indiana, Kansas, Kentucky, Maryland, Missouri, Nebraska, Nevada, New Jersey, New Mexico, North Carolina, Ohio, Oklahoma, Pennsylvania, Tennessee, Virginia, and West Virginia.\r\n\r\nThese vehicles are equipped with certain air bag in",
+    "remedy": "Subaru is notifying owners, and dealers will replace the front passenger air bag inflator, free of charge.  The recall began January 25, 2019.  Owners may contact Subaru customer service at 1-844-373-6614.  Subaru's number for this recall is TKB-19."
+   },
+   {
+    "id": "20V001000",
+    "date": "2020-01-02",
+    "component": "Air Bags:Frontal:Passenger Side:Inflator Module",
+    "summary": "Subaru of America, Inc. (Subaru) is recalling certain 2009-2013 Forester, 2003-2006 Baja, 2004-2011 Impreza, 2004-2014 WRX (STI included), 2003-2014 Legacy and Outback, and 2005-2006 Saab 9-2X vehicles originally sold, or ever registered, in the states of Alabama, California, Florida, Georgia, Hawaii, Louisiana, Mississippi, South Carolina, Texas, Puerto Rico, American Samoa, Guam, the Northern Mariana Islands (Saipan), and the U.S. Virgin Islands or \"Zone A.\"\r\n\r\nThese vehicles had their passeng",
+    "remedy": "Subaru will notify their owners.  General Motors will notify Saab owners.  Dealers will replace the passenger air bag inflators with alternate inflators, free of charge.  The recall began January 7, 2020.  Subaru Owners may contact Subaru customer service at 1-844-373-6614.  Saab owners may contact "
+   },
+   {
+    "id": "20V003000",
+    "date": "2020-01-02",
+    "component": "Air Bags:Frontal:Passenger Side:Inflator Module",
+    "summary": "Subaru of America, Inc. (Subaru) is recalling certain 2009-2013 Forester, 2003-2006 Baja, 2004-2011 Impreza, 2004-2014 WRX (including STI), 2003-2014 Legacy and Outback, and 2005-2006 Saab 9-2X vehicles originally sold, or ever registered, in the states of Alaska, Colorado, Connecticut, Idaho, Iowa, Maine, Massachusetts, Michigan, Minnesota, Montana, New Hampshire, New York, North Dakota, Oregon, Rhode Island, South Dakota, Utah, Vermont, Washington, Wisconsin, and Wyoming or \"Zone C.\"  \r\n\r\nThes",
+    "remedy": "Subaru will notify their owners.  General Motors will notify Saab owners.  Dealers will replace the passenger air bag inflators, free of charge.  The recall began January 7, 2020.  Subaru owners may contact Subaru customer service at 1-844-373-6614.  Saab owners may contact the Saab Customer Assista"
+   },
+   {
+    "id": "20V002000",
+    "date": "2020-01-02",
+    "component": "Air Bags:Frontal:Passenger Side:Inflator Module",
+    "summary": "Subaru of America, Inc. (Subaru) is recalling certain 2009-2013 Forester, 2003-2006 Baja, 2004-2011 Impreza, 2004-2014 WRX (including STI), 2003-2014 Legacy and Outback, and 2006 Saab 9-2X vehicles originally sold, or ever registered, in the states of Arizona, Arkansas, Delaware, District of Columbia, Illinois, Indiana, Kansas, Kentucky, Maryland, Missouri, Nebraska, Nevada, New Jersey, New Mexico, North Carolina, Ohio, Oklahoma, Pennsylvania, Tennessee, Virginia, and West Virginia or \"Zone B.\" ",
+    "remedy": "Subaru will notify their owners.  General Motors will notify Saab owners.  Dealers will replace the passenger air bag inflators, free of charge.  The recall began January 7, 2020.  Subaru owners may contact Subaru customer service at 1-844-373-6614.  Saab owners may contact the Saab Customer Assista"
+   },
+   {
+    "id": "19V297000",
+    "date": "2019-04-11",
+    "component": "Electrical System:Ignition:Switch",
+    "summary": "Subaru of America, Inc. (Subaru) is recalling certain 2009-2013 Forester vehicles, 2008-2011 Impreza vehicles, 2008-2014 WRX vehicles, 2005-2014 Legacy vehicles, 2005-2014 Outback vehicles and 2006-2008 Tribeca vehicles equipped with a mechanical key ignition switch installed as a replacement part.  The ball spring inside the switch may break, reducing the strength of the ignition switch.  If this occurs, the weight on the key ring and certain road conditions could cause the ignition switch to m",
+    "remedy": "Subaru will notify owners, and dealers will inspect the ignition switch, replacing the ignition switch, if necessary, free of charge. The recall began May 10, 2019.  Owners may contact Subaru customer service at 1-844-373-6614.  Subaru's number for this recall is WUF-91."
+   },
+   {
+    "id": "16V694000",
+    "date": "2016-09-27",
+    "component": "Visibility:Windshield Wiper/Washer:Motor",
+    "summary": "Subaru of America, Inc. (Subaru) is recalling certain model year 2010-2014 Legacy vehicles manufactured November 26, 2008, to June 7, 2013, and 2010-2014 Outback vehicles manufactured January 9, 2009 to June 7, 2013.  Due to contamination, components within the windshield wiper motor bottom cover may interfere with each other.  If an obstruction, such as a buildup of snow or ice prevents the wiper arms from being able to stop in the parked position, the wiper motor may overheat and the bottom co",
+    "remedy": "Subaru will notify owners, and dealers will replace the windshield wiper motor bottom cover assembly, free of charge. The recall began October 2016.  Owners may contact Subaru customer service at 1-800-782-2783.  Subaru's number for this recall is WTK-71.  Note: This recall supersedes recall 11V-469"
+   },
+   {
+    "id": "17V014000",
+    "date": "2017-01-10",
+    "component": "Air Bags:Frontal:Passenger Side:Inflator Module",
+    "summary": "Subaru of America, Inc. (Subaru) is recalling certain 2005-2006 Subaru Baja, 2006-2011 Impreza (including WRX and STI models), 2006-2012 Tribeca, 2009-2012 Forester, Legacy, Outback, and 2012 WRX vehicles originally sold, or ever registered, in the states of Alabama, California, Florida, Georgia, Hawaii, Louisiana, Mississippi, South Carolina, Texas, Puerto Rico, American Samoa, Guam, the Northern Mariana Islands (Saipan), and the U.S. Virgin Islands.\r\n\r\nThese vehicles are equipped with certain ",
+    "remedy": "Subaru will notify owners, and dealers will replace the front passenger air bag inflator, free of charge.  The recall began March 6, 2017.  Owners may contact Subaru customer service at 1-800-782-2783.  Subaru's number for this recall is TKA-17."
+   },
+   {
+    "id": "18V012000",
+    "date": "2018-01-09",
+    "component": "Air Bags:Frontal:Passenger Side:Inflator Module",
+    "summary": "Subaru of America, Inc. (Subaru) is recalling certain 2009-2013 Legacy, Forester, Tribeca, WRX and Outback vehicles, and 2009-2011 Impreza vehicles sold, or ever registered, in the states of Alabama, California, Florida, Georgia, Hawaii, Louisiana, Mississippi, South Carolina, Texas, Puerto Rico, American Samoa, Guam, the Northern Mariana Islands (Saipan), and the U.S. Virgin Islands.\r\n\r\nThese vehicles are equipped with certain air bag inflators assembled as part of the passenger frontal air bag",
+    "remedy": "Subaru will notify owners, and dealers will replace the front passenger air bag inflator, free of charge.  The recall began on February 9, 2018.  Owners may contact Subaru customer service at 1-800-782-2783.  Subaru's number for this recall is TKA-18."
+   },
+   {
+    "id": "16V358000",
+    "date": "2016-05-25",
+    "component": "Air Bags:Frontal:Passenger Side:Inflator Module",
+    "summary": "Subaru of America, Inc. (Subaru) is recalling certain model year 2003-2004 Legacy, Outback, 2009-2011 Legacy, Outback, Forester, 2006-2011 Impreza, Tribeca, 2003-2006 Baja, and 2006 Saab 9-2x vehicles originally sold or that have ever been registered in Alabama, California, Florida, Georgia, Hawaii, Louisiana, Mississippi, South Carolina, Texas, Puerto Rico, American Samoa, Guam, the Northern Mariana Islands (Saipan), and the U.S. Virgin Islands, or \"Zone A.\"\r\n\r\nThese vehicles may be equipped wi",
+    "remedy": "Subaru will notify their owners.  General Motors will notify Saab owners.  Dealers will replace the passenger frontal air bag inflator, free of charge.  The recall began August 26, 2016.  Owners may contact Subaru customer service at 1-856-488-8500.  Saab owners may contact GM at 1-800-955-9007.  Su"
+   },
+   {
+    "id": "11V467000",
+    "date": "2011-09-07",
+    "component": "Visibility:Sun/Moon Roof Assembly",
+    "summary": "SUBARU IS RECALLING CERTAIN MODEL YEAR 2011 OUTBACK AND LEGACY VEHICLES MANUFACTURED FROM AUGUST 3, 2010, THROUGH JULY 1, 2011.  THE MOONROOF GLASS MAY COME LOOSE OR DETACH.  THE AMOUNT AND POSITION OF THE ADHESIVE BETWEEN THE GLASS AND RETAINER WAS INADEQUATELY APPLIED.",
+    "remedy": "SUBARU WILL NOTIFY OWNERS, AND DEALERS WILL INSPECT THE GLASS ADHESION CONDITION AND EITHER APPLY ADDITIONAL ADHESIVE OR REPLACE THE MOONROOF GLASS, FREE OF CHARGE.  THE SAFETY RECALL IS EXPECTED TO BEGIN DURING OCTOBER 2011.  OWNERS MAY CONTACT SUBARU AT 1-800-782-2783."
+   },
+   {
+    "id": "13V061000",
+    "date": "2013-02-25",
+    "component": "Electrical System",
+    "summary": "Subaru is recalling certain model year 2010-2012 Legacy and Outback vehicles equipped with an automatic or CVT transmission and an Audiovox remote engine starter (RES) accessory, certain model year 2012-2013 Impreza vehicles equipped with a CVT transmission and an Audiovox remote engine starter (RES) accessory, and certain model year 2013 XV Crosstrek vehicles equipped with a CVT transmission and an Audiovox remote engine starter (RES) accessory.  Additionally included are certain model year 201",
+    "remedy": "Subaru will notify owners, and dealers will replace the RES key fobs, free of charge.  The recall began on April 22, 2013.  Owners may contact Subaru at 1-800-782-2783 for more information."
+   },
+   {
+    "id": "12V602000",
+    "date": "2012-12-26",
+    "component": "Exterior Lighting",
+    "summary": "Subaru is recalling certain model year 2010 and 2011 Legacy and Outback vehicles, certain model year 2006 through 2012 Tribeca vehicles sold before January 2012, and certain model year 2009 through 2012 Forester vehicles sold before January 2012.  Up to 78,650 of these vehicles may have been equipped with accessory puddle lights that, when illuminated, brighten the area under the doors of the vehicle.  A short circuit can develop when either the puddle light or connector are exposed to an electr",
+    "remedy": "Subaru will notify owners, and dealers will install an additional fused-harness, free of charge.  The recall began February 19, 2013.  Owners may contact Subaru at 1-800-782-2783 for more information."
+   },
+   {
+    "id": "10V326000",
+    "date": "2010-07-20",
+    "component": "Power Train:Manual Transmission",
+    "summary": "SUBARU IS RECALLING CERTAIN MODEL YEAR 2010 AND 2011 OUTBACK AND LEGACY PASSENGER VEHICLES MANUFACTURED FROM APRIL 28 THROUGH JUNE 23, 2010.  DUE TO A PROGRAMMING ERROR, A LUBRICATION HOLE WITHIN THE 6-SPEED MANUAL TRANSMISSION WAS OMITTED.",
+    "remedy": "SUBARU WILL NOTIFY OWNERS AND DEALERS WILL REPAIR THE VEHICLES BY DRILLING AN OIL LUBRICATION HOLE AND, IF NECESSARY, REPLACE THE INTERNAL PARTS WITH NEW ONES FREE OF CHARGE.  THE SAFETY RECALL BEGAN ON JULY 28, 2010.  OWNERS MAY CONTACT SUBARU AT 1-800-782-2783."
+   }
+  ]
+ },
+ "epa": {
+  "kind": "mpg",
+  "label": "2011 Subaru Legacy AWD (Auto (variable gear ratios), 4 cyl, 2.5 L)",
+  "city": 22,
+  "hwy": 30,
+  "comb": 25,
+  "url": "https://www.fueleconomy.gov/feg/noframes/30082.shtml"
+ },
+ "battery": null,
+ "pricing": {
+  "status": "OK",
+  "radius_mi": 500,
+  "suggested": 5200,
+  "low": 1500,
+  "high": 7500,
+  "n": 4,
+  "confidence": "Low",
+  "slope_per_mile": 0.0,
+  "slope_fit_n": 4,
+  "notes": [
+   "Fewer than 3 comps with a matching trim name; mixed trims used, so confidence is capped at Medium.",
+   "No reliable mileage trend in comps; unadjusted prices used.",
+   "Comp prices vary widely (middle 50% spans 115% of the price), so confidence is capped at Medium.",
+   "Few listings at this mileage (0 within \u00b115%); comps average ~48k mi away, so the mileage adjustment carries more weight.",
+   "Few comps within 500 mi (4)."
+  ],
+  "tier": "adjacent model years included",
+  "avg_mile_gap": 48249,
+  "comps_used": [
+   "4S3BMBK68B3224208",
+   "4S3BMCC66B3215558",
+   "4S3BMCH6XB3213109",
+   "4S3BMCK62B3261048"
+  ],
+  "battery_adj": 0,
+  "fl_comps": 3
+ },
+ "comps": [
+  {
+   "source": "Autotrader",
+   "vin": "4S3BMBK68B3224208",
+   "year": 2011,
+   "make": "Subaru",
+   "model": "Legacy",
+   "trim": "2.5i Limited",
+   "drive": "AWD",
+   "price": 7500,
+   "miles": 247648,
+   "color": "Silver",
+   "location": "Gainesville, FL",
+   "dealer": "Popular Imports",
+   "url": "https://www.autotrader.com/cars-for-sale/vehicle/769876515",
+   "img": "https://images.autotrader.com/hn/c/418e053d371044e7a693840439e31af4.jpg",
+   "seen": "2026-10-10",
+   "also_on": [],
+   "battery_health": null,
+   "battery_health_src": null,
+   "adj": 7500,
+   "color_match": false,
+   "hw": null,
+   "interior": "Black",
+   "zip": "32609",
+   "lat": 29.693407,
+   "lon": -82.33912,
+   "engine": "4-Cylinder",
+   "fuel": "Gasoline",
+   "drive_raw": "AWD4WD",
+   "days_on_site": 270,
+   "reduced": false,
+   "price_drops": 0,
+   "dist_lux_mi": 115,
+   "dist_lux_how": "dealer address",
+   "dist_mi": 115,
+   "dist_how": "dealer address",
+   "same_ext": false,
+   "same_int": false,
+   "match_score": 0.3391,
+   "best_match": true,
+   "match_rank": 1
+  },
+  {
+   "source": "Autotrader",
+   "vin": "4S3BMCC66B3215558",
+   "year": 2011,
+   "make": "Subaru",
+   "model": "Legacy",
+   "trim": "2.5i Premium",
+   "drive": "AWD",
+   "price": 1525,
+   "miles": 162293,
+   "color": "White",
+   "location": "Coconut Creek, FL",
+   "dealer": "Salvage Reseller",
+   "url": "https://www.autotrader.com/cars-for-sale/vehicle/792611073",
+   "img": "https://images.autotrader.com/hn/c/a74d59b6ce4d4157a0700d8dbfb67f69.jpg",
+   "seen": "2026-10-10",
+   "also_on": [],
+   "battery_health": null,
+   "battery_health_src": null,
+   "adj": 1500,
+   "color_match": false,
+   "hw": null,
+   "interior": "Black",
+   "zip": "33073",
+   "lat": 26.314613,
+   "lon": -80.193306,
+   "engine": "4-Cylinder",
+   "fuel": "Gasoline",
+   "drive_raw": "AWD4WD",
+   "days_on_site": 8,
+   "reduced": false,
+   "price_drops": 1,
+   "dist_lux_mi": 162,
+   "dist_lux_how": "dealer address",
+   "dist_mi": 162,
+   "dist_how": "dealer address",
+   "same_ext": false,
+   "same_int": false,
+   "match_score": 0.4873,
+   "best_match": false,
+   "match_rank": 2
+  },
+  {
+   "source": "Autotrader",
+   "vin": "4S3BMCK62B3261048",
+   "year": 2011,
+   "make": "Subaru",
+   "model": "Legacy",
+   "trim": "2.5i Limited",
+   "drive": "AWD",
+   "price": 5200,
+   "miles": 126960,
+   "color": "White",
+   "location": "Sanford, FL",
+   "dealer": "Sunshine Auto Outlet",
+   "url": "https://www.autotrader.com/cars-for-sale/vehicle/787326923",
+   "img": "https://images.autotrader.com/hn/c/1aeda37801174cef916fb6d0996b7a19.jpg",
+   "seen": "2026-10-10",
+   "also_on": [],
+   "battery_health": null,
+   "battery_health_src": null,
+   "adj": 5200,
+   "color_match": false,
+   "hw": null,
+   "interior": null,
+   "zip": "32771",
+   "lat": 28.811365,
+   "lon": -81.27094,
+   "engine": "4-Cylinder",
+   "fuel": "Gasoline",
+   "drive_raw": "AWD4WD",
+   "days_on_site": 57,
+   "reduced": true,
+   "price_drops": 2,
+   "dist_lux_mi": 67,
+   "dist_lux_how": "dealer address",
+   "dist_mi": 67,
+   "dist_how": "dealer address",
+   "same_ext": false,
+   "same_int": false,
+   "match_score": 0.5798,
+   "best_match": false,
+   "match_rank": 3
+  },
+  {
+   "source": "Autotrader",
+   "vin": "4S3BMCH6XB3213109",
+   "year": 2011,
+   "make": "Subaru",
+   "model": "Legacy",
+   "trim": "2.5i Premium",
+   "drive": "AWD",
+   "price": 5200,
+   "miles": 149040,
+   "color": "Black",
+   "location": "Atlanta, GA",
+   "dealer": "Private Seller Exchange",
+   "url": "https://www.autotrader.com/cars-for-sale/vehicle/789762058",
+   "img": "https://assets.cai-media-management.com/ps-vehicle-media/1c847808-2f01-4d09-8a97-50680b6a2273.jpg",
+   "seen": "2026-10-10",
+   "also_on": [],
+   "battery_health": null,
+   "battery_health_src": null,
+   "adj": 5200,
+   "color_match": false,
+   "hw": null,
+   "interior": "Tan",
+   "zip": "30306",
+   "lat": null,
+   "lon": null,
+   "engine": "4-Cylinder",
+   "fuel": "Gasoline",
+   "drive_raw": "AWD4WD",
+   "days_on_site": 40,
+   "reduced": false,
+   "price_drops": 0,
+   "dist_lux_mi": 420,
+   "dist_lux_how": "dealer ZIP",
+   "dist_mi": 420,
+   "dist_how": "dealer ZIP",
+   "same_ext": false,
+   "same_int": false,
+   "match_score": 0.8715,
+   "best_match": false,
+   "match_rank": 4
+  }
+ ],
+ "demand": {
+  "label": "Warm",
+  "score": 48,
+  "confidence": "Low",
+  "subs": {
+   "Days on market": 79,
+   "Price cuts": 17
+  },
+  "inputs": {
+   "comps": 4,
+   "comps_with_days": 4,
+   "local_supply": 3,
+   "local_radius": 250,
+   "national_supply": null,
+   "median_days": 48,
+   "price_cut_share": 50,
+   "median_vs_kbb_pct": 2.9
+  },
+  "color": "orange"
+ },
+ "mmr": {
+  "adjusted": 825,
+  "is_adjusted": true,
+  "base": 1900,
+  "odometer_adj": -1060,
+  "low": 525,
+  "high": 1150,
+  "avg_odometer": 157105,
+  "est_retail": 3525,
+  "transactions": 11,
+  "miles_used": 212900,
+  "region": "default",
+  "trim": "2011 Subaru Legacy 4C 4D Sedan 2.5i Premium",
+  "notes": "Single style auto-decoded. Avg condition 2.0. Est retail typical range $1,675-$7,525. Historical avg past 30d $1,975, 6mo ago $2,450, last year $1,950. No grade/color/build options.",
+  "date": "2026-10-10",
+  "source": "Manheim MMR (mmr.manheim.com), mileage-adjusted, default region"
+ },
+ "carfax": {
+  "owners": null,
+  "one_owner": null,
+  "accidents": [
+   {
+    "date": "07/21/2021",
+    "severity": "Minor",
+    "description": "Damage reported: minor damage; left side, left rear"
+   },
+   {
+    "date": "08/21/2024",
+    "severity": null,
+    "description": "Damage reported (severity not specified)"
+   }
+  ],
+  "total_loss": false,
+  "airbag_deployed": false,
+  "structural_damage": "No Issues Reported",
+  "title_problems": "No Problem",
+  "odometer_problems": "No indication of an odometer rollback.",
+  "service_records": 35,
+  "detailed_records": 39,
+  "last_odometer": 245688,
+  "last_odometer_date": null,
+  "use_type": null,
+  "last_owned_state": null,
+  "warranty": "No data reported",
+  "report_url": "https://www.carfaxonline.com/vhr/4S3BMHB68B3286050",
+  "badges": [
+   "Damage Reported",
+   "35 Service History Records",
+   "39 Detailed Records Available",
+   "Recently Serviced"
+  ],
+  "vehicle": "2011 Subaru Legacy Premium",
+  "carfax_value": null,
+  "tags": [
+   [
+    "Minor Damage",
+    "orange"
+   ],
+   [
+    "Accident reported (severity not stated)",
+    "orange"
+   ],
+   [
+    "Service records 74",
+    "grey"
+   ]
+  ],
+  "pulled": "2026-10-10",
+  "note": null,
+  "pdf": "auctions/carfax/4S3BMHB68B3286050.pdf"
+ },
+ "bid": {
+  "max_bid": 800,
+  "basis": "MMR",
+  "why": "lower of adjusted MMR and retail ceiling",
+  "lines": [
+   {
+    "label": "Suggested retail (comps)",
+    "v": 5200
+   },
+   {
+    "label": "\u2212 Recon + auction/transport fees",
+    "v": -1500
+   },
+   {
+    "label": "\u2212 Target gross (max $1,500 or 8% of retail)",
+    "v": -1500
+   },
+   {
+    "label": "= Retail-based ceiling",
+    "v": 2200,
+    "strong": true
+   },
+   {
+    "label": "Adjusted MMR (Manheim, at these miles)",
+    "v": 825,
+    "strong": true
+   },
+   {
+    "label": "Suggested max bid (lower of adjusted MMR and retail ceiling, rounded down to $100)",
+    "v": 800,
+    "strong": true,
+    "final": true
+   }
+  ],
+  "expected_gross": 2900,
+  "expected_gross_pct": 55.8,
+  "mmr": 825,
+  "retail": 5200,
+  "retail_ceiling": 2200,
+  "vs_mmr": -25
+ },
+ "config": {
+  "recon_fees": 1500,
+  "min_gross": 1500,
+  "gross_pct": 0.08,
+  "round_down_to": 100,
+  "typical_mi_yr": 13500,
+  "index_keep": 60,
+  "prefill_days": 3
+ },
+ "updated_at": "2026-10-10T14:51:06",
+ "pending": [],
+ "comps_searched": {
+  "fresh": 4,
+  "total_pool": 4,
+  "within_radius": 4,
+  "radius_mi": 500,
+  "autotrader_count_500mi": 4,
+  "at": "2026-10-10T14:49:27"
+ }
+}

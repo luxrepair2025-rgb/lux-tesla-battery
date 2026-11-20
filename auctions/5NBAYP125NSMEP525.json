@@ -1,0 +1,106 @@
+{
+ "vin": "5NBAYP125NSMEP525",
+ "requested_at": "2026-10-10T14:53:29",
+ "miles": null,
+ "miles_assumed": false,
+ "check_digit_ok": true,
+ "tesla": false,
+ "vehicle": {
+  "year": null,
+  "make": null,
+  "model": null,
+  "trim": null,
+  "engine": null,
+  "drivetrain": null,
+  "drive": null,
+  "fuel": "",
+  "electrification": null,
+  "body": null,
+  "transmission": null,
+  "plant": null,
+  "gvwr": null,
+  "decode_ok": false,
+  "decode_msg": "1 - Check Digit (9th position) does not calculate properly; 7 - Manufacturer is not registered with NHTSA for sale or importation in the U.S. for use on U.S roads; Please contact the manufacturer directly for more information; 400 - Invalid Characters Present",
+  "age": null
+ },
+ "decode_raw": {
+  "Make": "",
+  "Model": "",
+  "ModelYear": "",
+  "Trim": "",
+  "Series": "",
+  "BodyClass": "",
+  "DriveType": "",
+  "EngineCylinders": "",
+  "DisplacementL": "",
+  "EngineModel": "",
+  "EngineHP": "",
+  "FuelTypePrimary": "",
+  "ElectrificationLevel": "",
+  "TransmissionStyle": "",
+  "TransmissionSpeeds": "",
+  "PlantCity": "",
+  "PlantState": "",
+  "PlantCountry": "",
+  "GVWR": "",
+  "Turbo": "",
+  "Doors": "",
+  "ErrorCode": "1,7,400",
+  "ErrorText": "1 - Check Digit (9th position) does not calculate properly; 7 - Manufacturer is not registered with NHTSA for sale or importation in the U.S. for use on U.S roads; Please contact the manufacturer directly for more information; 400 - Invalid Characters Present"
+ },
+ "status": {
+  "decode": "ok",
+  "recalls": "failed",
+  "epa": "none",
+  "comps": "insufficient",
+  "mmr": "none",
+  "carfax": "none"
+ },
+ "lux": null,
+ "recalls": null,
+ "epa": {
+  "kind": "mpg",
+  "none": "EPA not available \u2014 VIN did not decode (NHTSA: check digit / manufacturer / invalid)"
+ },
+ "battery": null,
+ "pricing": {
+  "status": "Insufficient data",
+  "n": 0,
+  "notes": [
+   "Could not map None None to an Autotrader search"
+  ]
+ },
+ "comps": [],
+ "demand": null,
+ "mmr": {
+  "unavailable": "No results found. Please check your VIN and try again."
+ },
+ "carfax": {
+  "unavailable": "Invalid VIN \u2014 CARFAX cannot process this request. The VIN is invalid."
+ },
+ "bid": {
+  "max_bid": null,
+  "basis": "Pending",
+  "lines": [],
+  "why": "Needs comparable retail listings or MMR"
+ },
+ "config": {
+  "recon_fees": 1500,
+  "min_gross": 1500,
+  "gross_pct": 0.08,
+  "round_down_to": 100,
+  "typical_mi_yr": 13500,
+  "index_keep": 60,
+  "prefill_days": 3
+ },
+ "updated_at": "2026-10-10T14:55:29",
+ "pending": [],
+ "notified": {
+  "for": "2026-10-10T14:53:29",
+  "at": "2026-10-10T14:55:29",
+  "sent": 0,
+  "subscriptions": 0,
+  "removed": 0,
+  "failed": 0
+ }
+}
